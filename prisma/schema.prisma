@@ -1,0 +1,99 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int    @id @default(autoincrement())
+  name          String
+  email         String @unique
+  password_hash String
+  category      Int
+
+  created_at          DateTime  @default(now())
+  system_deleted      Int?
+  system_date_deleted DateTime?
+
+  @@map("users")
+}
+
+model Test {
+  id              Int    @id @default(autoincrement())
+  name            String
+  min_participant Int
+  max_participant Int
+  first_score     Int
+  second_score    Int
+  third_score     Int
+  general_score   Int
+  category        Int
+
+  CompetitionTests CompetitionTest[]
+
+  system_deleted      Int?
+  system_date_deleted DateTime?
+
+  @@map("tests")
+}
+
+model Competition {
+  id                 Int      @id @default(autoincrement())
+  title              String
+  date_event         DateTime
+  start_registration DateTime
+  final_registration DateTime
+  min_participant    Int
+  max_participant    Int
+  local              String
+  description        String?
+
+  CompetitionTests CompetitionTest[]
+  Teams            Team[]
+
+  created_at          DateTime  @default(now())
+  system_deleted      Int?
+  system_date_deleted DateTime?
+
+  @@map("competitions")
+}
+
+model CompetitionTest {
+  id        Int      @id @default(autoincrement())
+  local     String
+  date_test DateTime
+
+  competition    Competition @relation(fields: [competition_id], references: [id])
+  competition_id Int
+
+  test    Test @relation(fields: [test_id], references: [id])
+  test_id Int
+
+  @@map("competition_tests")
+}
+
+model Team {
+  id Int @id @default(autoincrement())
+
+  competition    Competition @relation(fields: [competition_id], references: [id])
+  competition_id Int
+
+  name      String
+  status    Int
+  situation Int
+
+  created_at          DateTime  @default(now())
+  system_deleted      Int?
+  system_date_deleted DateTime?
+
+  @@map("teams")
+}
