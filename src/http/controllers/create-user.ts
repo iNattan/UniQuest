@@ -8,26 +8,24 @@ export async function createUser(request: FastifyRequest, reply: FastifyReply) {
     name: z.string(),
     email: z.string().email(),
     password: z.string(),
-    category: z.number()    
+    role: z.number(),
   })
 
-  const { name, email, password, category } = userBodySchema.parse(request.body)
+  const { name, email, password, role } = userBodySchema.parse(request.body)
 
   try {
     const createUserUseCase = makeCreateUserUseCase()
-    
+
     await createUserUseCase.execute({
-      name, 
-      email, 
-      password, 
-      category
-    })    
+      name,
+      email,
+      password,
+      role,
+    })
   } catch (err) {
     if (err instanceof UserAlreadyExistsError) {
-      return reply.status(409).send(err.message) 
-    }    
-    
-    err
+      return reply.status(409).send(err.message)
+    }
   }
 
   return reply.status(201).send()
