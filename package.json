@@ -15,9 +15,11 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@rocketseat/eslint-config": "2.2.2",
     "@types/bcryptjs": "2.4.6",
     "@types/node": "^20.14.10",
     "@vitest/coverage-v8": "2.0.4",
+    "eslint": "8.57.0",
     "prisma": "5.16.2",
     "tsup": "^8.1.0",
     "tsx": "^4.16.2",
@@ -26,6 +28,8 @@
     "vitest": "2.0.4"
   },
   "dependencies": {
+    "@fastify/cookie": "9.3.1",
+    "@fastify/jwt": "8.0.1",
     "@prisma/client": "5.16.2",
     "bcryptjs": "2.4.3",
     "dotenv": "16.4.5",

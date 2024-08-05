@@ -11,14 +11,14 @@ describe('Create User Use Case', () => {
   beforeEach(() => {
     userRepository = new InMemoryUsersRepository()
     sut = new CreateUserUseCase(userRepository)
-  })   
+  })
 
   it('should be able to register', async () => {
     const { user } = await sut.execute({
       name: 'Diego',
       email: 'diego@email.com',
       password: '12345',
-      category: 0
+      role: 0,
     })
 
     expect(user.id).toEqual(expect.any(Number))
@@ -29,14 +29,11 @@ describe('Create User Use Case', () => {
       name: 'Diego',
       email: 'diego@email.com',
       password: '12345',
-      category: 0
+      role: 0,
     })
 
-    const isPasswordCorrectlyHashed = await compare (
-      '12345',
-      user.password_hash
-    )
-    
+    const isPasswordCorrectlyHashed = await compare('12345', user.password_hash)
+
     expect(isPasswordCorrectlyHashed).toBe(true)
   })
 
@@ -47,16 +44,16 @@ describe('Create User Use Case', () => {
       name: 'Diego',
       email,
       password: '12345',
-      category: 0
+      role: 0,
     })
-    
+
     await expect(() =>
       sut.execute({
         name: 'Diego',
         email,
         password: '12345',
-        category: 0
-      })
+        role: 0,
+      }),
     ).rejects.toBeInstanceOf(UserAlreadyExistsError)
   })
 })
