@@ -13,26 +13,21 @@ export async function update(request: FastifyRequest, reply: FastifyReply) {
     email: z.string().email().optional(),
     password: z.string().optional(),
     role: z.number().optional(),
-    system_deleted: z.number().optional(),
-    system_date_deleted: z.coerce.date().optional(),
   })
 
   const { id } = paramsSchema.parse(request.params)
 
-  const { name, email, password, role, system_deleted, system_date_deleted } =
-    userBodySchema.parse(request.body)
+  const { name, email, password, role } = userBodySchema.parse(request.body)
 
   try {
-    const createUserUseCase = makeUpdateUserUseCase()
+    const updateUserUseCase = makeUpdateUserUseCase()
 
-    await createUserUseCase.execute({
+    await updateUserUseCase.execute({
       id,
       name,
       email,
       password,
       role,
-      system_deleted,
-      system_date_deleted,
     })
   } catch (err) {
     if (err instanceof NotFoundError) {

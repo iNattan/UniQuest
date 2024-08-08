@@ -9,8 +9,6 @@ interface UpdateUserUseCaseRequest {
   email?: string
   password?: string
   role?: number
-  system_deleted?: number
-  system_date_deleted?: Date
 }
 
 interface UpdateUserUseCaseResponse {
@@ -26,8 +24,6 @@ export class UpdateUserUseCase {
     email,
     password,
     role,
-    system_deleted,
-    system_date_deleted,
   }: UpdateUserUseCaseRequest): Promise<UpdateUserUseCaseResponse> {
     const userExists = await this.userRepository.findById(id)
 
@@ -45,8 +41,6 @@ export class UpdateUserUseCase {
       email,
       password_hash,
       role,
-      system_deleted,
-      system_date_deleted,
     })
 
     return {

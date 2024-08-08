@@ -38,4 +38,19 @@ export class PrismaUsersRepository implements UsersRepository {
     })
     return user
   }
+
+  async delete(id: number) {
+    try {
+      await prisma.user.update({
+        where: { id },
+        data: {
+          system_deleted: id,
+          system_date_deleted: new Date(),
+        },
+      })
+      return true
+    } catch (err) {
+      return false
+    }
+  }
 }

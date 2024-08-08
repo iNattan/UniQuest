@@ -5,4 +5,5 @@ export interface UsersRepository {
   findById(id: number): Promise<User | null>
   create(data: Prisma.UserCreateInput): Promise<User>
   update(id: number, data: Prisma.UserUpdateInput): Promise<User>
+  delete(id: number): Promise<boolean>
 }

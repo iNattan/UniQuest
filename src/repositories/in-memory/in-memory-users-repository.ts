@@ -26,7 +26,7 @@ export class InMemoryUsersRepository implements UsersRepository {
 
   async create(data: Prisma.UserCreateInput) {
     const user = {
-      id: 1,
+      id: this.items.length + 1,
       name: data.name,
       email: data.email,
       password_hash: data.password_hash,
@@ -39,5 +39,43 @@ export class InMemoryUsersRepository implements UsersRepository {
     this.items.push(user)
 
     return user
+  }
+
+  async update(id: number, data: Prisma.UserUpdateInput): Promise<User> {
+    const userIndex = this.items.findIndex((item) => item.id === id)
+
+    const user = this.items[userIndex]
+
+    const updatedUser: User = {
+      ...user,
+      name: typeof data.name === 'string' ? data.name : user.name,
+      email: typeof data.email === 'string' ? data.email : user.email,
+      password_hash:
+        typeof data.password_hash === 'string'
+          ? data.password_hash
+          : user.password_hash,
+      role: typeof data.role === 'number' ? data.role : user.role,
+    }
+    this.items[userIndex] = updatedUser
+
+    return updatedUser
+  }
+
+  async delete(id: number): Promise<boolean> {
+    const userIndex = this.items.findIndex((item) => item.id === id)
+
+    if (userIndex === -1) {
+      return false
+    }
+
+    const user = this.items[userIndex]
+
+    this.items[userIndex] = {
+      ...user,
+      system_deleted: id,
+      system_date_deleted: new Date(),
+    }
+
+    return true
   }
 }
