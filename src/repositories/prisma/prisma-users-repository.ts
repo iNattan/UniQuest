@@ -23,6 +23,24 @@ export class PrismaUsersRepository implements UsersRepository {
     return user
   }
 
+  async findMany(filter?: string) {
+    const users = await prisma.user.findMany({
+      where: {
+        system_deleted: null,
+        ...(filter
+          ? {
+              OR: [
+                { name: { contains: filter, mode: 'insensitive' } },
+                { email: { contains: filter, mode: 'insensitive' } },
+              ],
+            }
+          : {}),
+      },
+    })
+
+    return users
+  }
+
   async create(data: Prisma.UserCreateInput) {
     const user = await prisma.user.create({
       data,

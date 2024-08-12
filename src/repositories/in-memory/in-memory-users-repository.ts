@@ -24,6 +24,29 @@ export class InMemoryUsersRepository implements UsersRepository {
     return user
   }
 
+  async findMany(filter?: string) {
+    const filteredUsers = this.items.filter((user) => {
+      const isActive = user.system_deleted === null
+
+      if (!isActive) {
+        return false
+      }
+
+      if (!filter) {
+        return true
+      }
+
+      const matchesName = user.name.toLowerCase().includes(filter.toLowerCase())
+      const matchesEmail = user.email
+        .toLowerCase()
+        .includes(filter.toLowerCase())
+
+      return matchesName || matchesEmail
+    })
+
+    return filteredUsers
+  }
+
   async create(data: Prisma.UserCreateInput) {
     const user = {
       id: this.items.length + 1,

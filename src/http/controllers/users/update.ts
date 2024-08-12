@@ -1,6 +1,6 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { z } from 'zod'
-import { makeUpdateUserUseCase } from '../../use-cases/factories/make-update-user-use-case'
+import { makeUpdateUserUseCase } from '../../use-cases/users/factories/make-update-use-case'
 import { NotFoundError } from '@/http/use-cases/errors/not-found-error'
 
 export async function update(request: FastifyRequest, reply: FastifyReply) {
@@ -29,11 +29,11 @@ export async function update(request: FastifyRequest, reply: FastifyReply) {
       password,
       role,
     })
+
+    return reply.status(200).send()
   } catch (err) {
     if (err instanceof NotFoundError) {
       return reply.status(404).send(err.message)
     }
   }
-
-  return reply.status(200).send()
 }

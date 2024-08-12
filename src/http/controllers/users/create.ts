@@ -1,7 +1,7 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { z } from 'zod'
 import { UserAlreadyExistsError } from '../../use-cases/errors/user-already-exists-error'
-import { makeCreateUserUseCase } from '../../use-cases/factories/make-create-user-use-case'
+import { makeCreateUserUseCase } from '../../use-cases/users/factories/make-create-use-case'
 
 export async function create(request: FastifyRequest, reply: FastifyReply) {
   const userBodySchema = z.object({
@@ -22,11 +22,11 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
       password,
       role,
     })
+
+    return reply.status(201).send()
   } catch (err) {
     if (err instanceof UserAlreadyExistsError) {
       return reply.status(409).send(err.message)
     }
   }
-
-  return reply.status(201).send()
 }

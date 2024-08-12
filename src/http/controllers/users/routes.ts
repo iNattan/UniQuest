@@ -1,11 +1,11 @@
 import { FastifyInstance } from 'fastify'
 import { create } from './create'
 import { authenticate } from './authenticate'
-import { profile } from './profile'
-import { verifyJWT } from '../../middlewares/verify-jwt'
+import { get } from './get'
 import { refresh } from './refresh'
 import { update } from './update'
 import { delete_ } from './delete_'
+import { verifyJWT } from '@/http/middlewares/verify-jwt'
 
 export async function usersRoutes(app: FastifyInstance) {
   app.post('/users', create)
@@ -17,5 +17,5 @@ export async function usersRoutes(app: FastifyInstance) {
 
   app.delete('/users/:id', delete_)
 
-  app.get('/profile', { onRequest: [verifyJWT] }, profile)
+  app.get('/users', { onRequest: verifyJWT }, get)
 }

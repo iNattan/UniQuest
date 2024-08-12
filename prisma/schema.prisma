@@ -21,7 +21,7 @@ model User {
   @@map("users")
 }
 
-model Test {
+model Game {
   id              Int    @id @default(autoincrement())
   name            String
   min_participant Int
@@ -32,12 +32,12 @@ model Test {
   general_score   Int
   category        Int
 
-  CompetitionTests CompetitionTest[]
+  CompetitionGames CompetitionGame[]
 
   system_deleted      Int?
   system_date_deleted DateTime?
 
-  @@map("tests")
+  @@map("games")
 }
 
 model Competition {
@@ -45,13 +45,13 @@ model Competition {
   title              String
   date_event         DateTime
   start_registration DateTime
-  final_registration DateTime
+  end_registration   DateTime
   min_participant    Int
   max_participant    Int
   local              String
   description        String?
 
-  CompetitionTests CompetitionTest[]
+  CompetitionGames CompetitionGame[]
   Teams            Team[]
 
   created_at          DateTime  @default(now())
@@ -61,18 +61,18 @@ model Competition {
   @@map("competitions")
 }
 
-model CompetitionTest {
+model CompetitionGame {
   id        Int      @id @default(autoincrement())
   local     String
-  date_test DateTime
+  date_game DateTime
 
   competition    Competition @relation(fields: [competition_id], references: [id])
   competition_id Int
 
-  test    Test @relation(fields: [test_id], references: [id])
-  test_id Int
+  game    Game @relation(fields: [game_id], references: [id])
+  game_id Int
 
-  @@map("competition_tests")
+  @@map("competition_games")
 }
 
 model Team {
