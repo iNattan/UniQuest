@@ -10,12 +10,12 @@ interface GetGameUseCaseResponse {
 }
 
 export class GetGameUseCase {
-  constructor(private userRepository: GamesRepository) {}
+  constructor(private gamesRepository: GamesRepository) {}
 
   async execute({
     filter,
   }: GetGameUseCaseRequest): Promise<GetGameUseCaseResponse> {
-    const games = await this.userRepository.findMany(filter)
+    const games = await this.gamesRepository.findMany(filter)
 
     return {
       games,
