@@ -3,7 +3,7 @@ import { z } from 'zod'
 import { makeCreateGameUseCase } from '../../use-cases/games/factories/make-create-use-case'
 
 export async function create(request: FastifyRequest, reply: FastifyReply) {
-  const competitionBodySchema = z.object({
+  const gameBodySchema = z.object({
     name: z.string(),
     min_participant: z.number(),
     max_participant: z.number(),
@@ -23,7 +23,7 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
     third_score,
     general_score,
     category,
-  } = competitionBodySchema.parse(request.body)
+  } = gameBodySchema.parse(request.body)
 
   const createGameUseCase = makeCreateGameUseCase()
 

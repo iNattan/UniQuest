@@ -17,6 +17,7 @@ model User {
   created_at          DateTime  @default(now())
   system_deleted      Int?
   system_date_deleted DateTime?
+  Team                Team[]
 
   @@map("users")
 }
@@ -84,6 +85,9 @@ model Team {
   name      String
   status    Int
   situation Int
+
+  leader         User @relation(fields: [leader_user_id], references: [id])
+  leader_user_id Int
 
   created_at          DateTime  @default(now())
   system_deleted      Int?
