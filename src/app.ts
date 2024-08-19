@@ -7,6 +7,7 @@ import { usersRoutes } from './http/controllers/users/routes'
 import { gamesRoutes } from './http/controllers/games/routes'
 import { competitionsRoutes } from './http/controllers/competitions/routes'
 import { teamsRoutes } from './http/controllers/teams/routes'
+import { teamMembersRoutes } from './http/controllers/team-members/routes'
 
 export const app = fastify()
 
@@ -27,6 +28,7 @@ app.register(usersRoutes)
 app.register(gamesRoutes)
 app.register(competitionsRoutes)
 app.register(teamsRoutes)
+app.register(teamMembersRoutes)
 
 app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {

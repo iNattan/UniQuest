@@ -8,11 +8,11 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
     name: z.string(),
     status: z.number(),
     situation: z.number(),
+    password: z.string().optional(),
   })
 
-  const { competition_id, name, status, situation } = teamBodySchema.parse(
-    request.body,
-  )
+  const { competition_id, name, status, situation, password } =
+    teamBodySchema.parse(request.body)
 
   const leader_user_id = parseInt(request.user.sub, 10)
 
@@ -23,6 +23,7 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
     name,
     status,
     situation,
+    password,
     leader_user_id,
   })
 

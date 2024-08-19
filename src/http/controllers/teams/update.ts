@@ -12,11 +12,14 @@ export async function update(request: FastifyRequest, reply: FastifyReply) {
     name: z.string().optional(),
     status: z.number().optional(),
     situation: z.number().optional(),
+    password: z.string().optional(),
   })
 
   const { id } = paramsSchema.parse(request.params)
 
-  const { name, status, situation } = teamBodySchema.parse(request.body)
+  const { name, status, situation, password } = teamBodySchema.parse(
+    request.body,
+  )
 
   try {
     const updateTeamUseCase = makeUpdateTeamUseCase()
@@ -26,6 +29,7 @@ export async function update(request: FastifyRequest, reply: FastifyReply) {
       name,
       status,
       situation,
+      password,
     })
 
     return reply.status(200).send()

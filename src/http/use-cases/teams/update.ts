@@ -1,12 +1,14 @@
 import { TeamsRepository } from '@/repositories/teams-repository'
-import { Team } from '@prisma/client'
+import { Prisma, Team } from '@prisma/client'
 import { NotFoundError } from '../errors/not-found-error'
+import { hash } from 'bcryptjs'
 
 interface UpdateTeamUseCaseRequest {
   id: number
   name?: string
   status?: number
   situation?: number
+  password?: string
 }
 
 interface UpdateTeamUseCaseResponse {
@@ -21,6 +23,7 @@ export class UpdateTeamUseCase {
     name,
     status,
     situation,
+    password,
   }: UpdateTeamUseCaseRequest): Promise<UpdateTeamUseCaseResponse> {
     const teamExists = await this.teamRepository.findById(id)
 
@@ -28,11 +31,17 @@ export class UpdateTeamUseCase {
       throw new NotFoundError('Team')
     }
 
-    const team = await this.teamRepository.update(id, {
+    const updateData: Prisma.TeamUpdateInput = {
       name,
       status,
       situation,
-    })
+    }
+
+    if (password) {
+      updateData.password_hash = await hash(password, 6)
+    }
+
+    const team = await this.teamRepository.update(id, updateData)
 
     return {
       team,

@@ -14,10 +14,11 @@ model User {
   password_hash String
   role          Int
 
-  created_at          DateTime  @default(now())
+  created_at          DateTime     @default(now())
   system_deleted      Int?
   system_date_deleted DateTime?
   Team                Team[]
+  TeamMember          TeamMember[]
 
   @@map("users")
 }
@@ -82,16 +83,30 @@ model Team {
   competition    Competition @relation(fields: [competition_id], references: [id])
   competition_id Int
 
-  name      String
-  status    Int
-  situation Int
+  name          String
+  status        Int
+  situation     Int
+  password_hash String?
 
   leader         User @relation(fields: [leader_user_id], references: [id])
   leader_user_id Int
 
-  created_at          DateTime  @default(now())
+  created_at          DateTime     @default(now())
   system_deleted      Int?
   system_date_deleted DateTime?
+  TeamMember          TeamMember[]
 
   @@map("teams")
+}
+
+model TeamMember {
+  id Int @id @default(autoincrement())
+
+  user    User @relation(fields: [user_id], references: [id])
+  user_id Int
+
+  team    Team @relation(fields: [team_id], references: [id])
+  team_id Int
+
+  @@map("team_members")
 }
