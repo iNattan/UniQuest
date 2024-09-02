@@ -36,8 +36,10 @@ model Game {
 
   CompetitionGames CompetitionGame[]
 
-  system_deleted      Int?
-  system_date_deleted DateTime?
+  system_deleted           Int?
+  system_date_deleted      DateTime?
+  DirectConfrontationMatch DirectConfrontationMatch[]
+  AllAgainstAllMatch       AllAgainstAllMatch[]
 
   @@map("games")
 }
@@ -56,9 +58,11 @@ model Competition {
   CompetitionGames CompetitionGame[]
   Teams            Team[]
 
-  created_at          DateTime  @default(now())
-  system_deleted      Int?
-  system_date_deleted DateTime?
+  created_at               DateTime                   @default(now())
+  system_deleted           Int?
+  system_date_deleted      DateTime?
+  DirectConfrontationMatch DirectConfrontationMatch[]
+  AllAgainstAllMatch       AllAgainstAllMatch[]
 
   @@map("competitions")
 }
@@ -96,6 +100,11 @@ model Team {
   system_date_deleted DateTime?
   TeamMember          TeamMember[]
 
+  team1Matches           DirectConfrontationMatch[] @relation("Team1Matches")
+  team2Matches           DirectConfrontationMatch[] @relation("Team2Matches")
+  winnerMatches          DirectConfrontationMatch[] @relation("WinnerMatches")
+  AllAgainstAllPlacement AllAgainstAllPlacement[]
+
   @@map("teams")
 }
 
@@ -109,4 +118,58 @@ model TeamMember {
   team_id Int
 
   @@map("team_members")
+}
+
+model DirectConfrontationMatch {
+  id Int @id @default(autoincrement())
+
+  competition    Competition @relation(fields: [competition_id], references: [id])
+  competition_id Int
+
+  game    Game @relation(fields: [game_id], references: [id])
+  game_id Int
+
+  round Int
+  match Int
+
+  team1    Team? @relation("Team1Matches", fields: [team1_id], references: [id])
+  team1_id Int?
+
+  team2    Team? @relation("Team2Matches", fields: [team2_id], references: [id])
+  team2_id Int?
+
+  winner_team    Team? @relation("WinnerMatches", fields: [winner_team_id], references: [id])
+  winner_team_id Int?
+
+  @@map("direct_confrontation_matches")
+}
+
+model AllAgainstAllMatch {
+  id Int @id @default(autoincrement())
+
+  competition    Competition @relation(fields: [competition_id], references: [id])
+  competition_id Int
+
+  game    Game @relation(fields: [game_id], references: [id])
+  game_id Int
+
+  round                  Int
+  AllAgainstAllPlacement AllAgainstAllPlacement[]
+
+  @@map("all_against_all_matches")
+}
+
+model AllAgainstAllPlacement {
+  id Int @id @default(autoincrement())
+
+  match    AllAgainstAllMatch @relation(fields: [match_id], references: [id])
+  match_id Int
+
+  team    Team @relation(fields: [team_id], references: [id])
+  team_id Int
+
+  position Int
+  score    Int
+
+  @@map("all_against_all_placements")
 }
