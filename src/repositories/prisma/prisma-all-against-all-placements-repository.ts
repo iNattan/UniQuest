@@ -21,6 +21,18 @@ export class PrismaAllAgainstAllPlacementsRepository
     })
   }
 
+  async findByMatchIdAndTeamId(
+    matchId: number,
+    teamId: number,
+  ): Promise<AllAgainstAllPlacement | null> {
+    return await prisma.allAgainstAllPlacement.findFirst({
+      where: {
+        match_id: matchId,
+        team_id: teamId,
+      },
+    })
+  }
+
   async createMany(
     data: Prisma.AllAgainstAllPlacementCreateManyInput[],
   ): Promise<Prisma.BatchPayload> {

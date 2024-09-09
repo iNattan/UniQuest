@@ -1,6 +1,8 @@
 import { AllAgainstAllMatchesRepository } from '@/repositories/all-against-all-matches-repository'
 import { AllAgainstAllPlacementsRepository } from '@/repositories/all-against-all-placements-repository'
+import { GamesRepository } from '@/repositories/games-repository'
 import { AllAgainstAllMatch, Prisma } from '@prisma/client'
+import { NotFoundError } from '../errors/not-found-error'
 
 interface CreateAllAgainstAllMatchUseCaseRequest {
   competition_id: number
@@ -17,6 +19,7 @@ export class CreateAllAgainstAllMatchUseCase {
   constructor(
     private allAgainstAllMatchesRepository: AllAgainstAllMatchesRepository,
     private allAgainstAllPlacementsRepository: AllAgainstAllPlacementsRepository,
+    private gamesRepository: GamesRepository,
   ) {}
 
   async execute({
@@ -37,12 +40,18 @@ export class CreateAllAgainstAllMatchUseCase {
       const match = await this.allAgainstAllMatchesRepository.create(matchData)
       matches.push(match)
 
+      const game = await this.gamesRepository.findById(game_id)
+      if (!game) {
+        throw new NotFoundError('Game')
+      }
+      const generalScore = game.general_score
+
       const placements: Prisma.AllAgainstAllPlacementCreateManyInput[] =
         teams.map((team_id) => ({
           match_id: match.id,
           team_id,
           position: 0,
-          score: 0,
+          score: generalScore,
         }))
 
       await this.allAgainstAllPlacementsRepository.createMany(placements)
