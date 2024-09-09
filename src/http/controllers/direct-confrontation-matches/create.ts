@@ -1,6 +1,6 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { z } from 'zod'
-import { makeCreateDirectConfrontationMatchesUseCase } from '../../use-cases/direct-confrontation-matches/factories/make-create-use-case'
+import { makeCreateDirectConfrontationMatchUseCase } from '../../use-cases/direct-confrontation-matches/factories/make-create-use-case'
 
 export async function create(request: FastifyRequest, reply: FastifyReply) {
   const matchesBodySchema = z.object({
@@ -13,9 +13,9 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
     request.body,
   )
 
-  const createMatchesUseCase = makeCreateDirectConfrontationMatchesUseCase()
+  const createMatchUseCase = makeCreateDirectConfrontationMatchUseCase()
 
-  await createMatchesUseCase.execute({
+  await createMatchUseCase.execute({
     competition_id,
     game_id,
     teams,

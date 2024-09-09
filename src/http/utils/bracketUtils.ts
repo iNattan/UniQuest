@@ -72,7 +72,7 @@ export function generateBracket(
     }
   }
 
-  while (matches.filter((m) => m.round === round).length > 1) {
+  while (matches.filter((m) => m.round === round).length > 2) {
     round++
     const previousRoundMatches = matches.filter(
       (match) => match.round === round - 1,
@@ -95,6 +95,44 @@ export function generateBracket(
       matchNumber++
     }
   }
+
+  const semifinalMatches = matches.filter((m) => m.round === round)
+
+  const team1Final = semifinalMatches[0].winner_team_id
+  const team2Final = semifinalMatches[1].winner_team_id
+  matches.push({
+    competition_id,
+    game_id,
+    round: round + 1,
+    match: 1,
+    team1_id: team1Final,
+    team2_id: team2Final,
+    winner_team_id: null,
+  })
+
+  let team1ThirdPlace = null
+  if (team1Final !== null) {
+    team1ThirdPlace =
+      semifinalMatches[0].team1_id === team1Final
+        ? semifinalMatches[0].team2_id
+        : semifinalMatches[0].team1_id
+  }
+  let team2ThirdPlace = null
+  if (team2Final !== null) {
+    team2ThirdPlace =
+      semifinalMatches[1].team1_id === team2Final
+        ? semifinalMatches[1].team2_id
+        : semifinalMatches[1].team1_id
+  }
+  matches.push({
+    competition_id,
+    game_id,
+    round: round + 1,
+    match: 2,
+    team1_id: team1ThirdPlace,
+    team2_id: team2ThirdPlace,
+    winner_team_id: null,
+  })
 
   return matches
 }
