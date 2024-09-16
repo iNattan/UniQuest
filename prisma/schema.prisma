@@ -40,6 +40,7 @@ model Game {
   system_date_deleted      DateTime?
   DirectConfrontationMatch DirectConfrontationMatch[]
   AllAgainstAllMatch       AllAgainstAllMatch[]
+  Score                    Score[]
 
   @@map("games")
 }
@@ -63,6 +64,7 @@ model Competition {
   system_date_deleted      DateTime?
   DirectConfrontationMatch DirectConfrontationMatch[]
   AllAgainstAllMatch       AllAgainstAllMatch[]
+  Score                    Score[]
 
   @@map("competitions")
 }
@@ -104,6 +106,7 @@ model Team {
   team2Matches           DirectConfrontationMatch[] @relation("Team2Matches")
   winnerMatches          DirectConfrontationMatch[] @relation("WinnerMatches")
   AllAgainstAllPlacement AllAgainstAllPlacement[]
+  Score                  Score[]
 
   @@map("teams")
 }
@@ -172,4 +175,21 @@ model AllAgainstAllPlacement {
   score    Int
 
   @@map("all_against_all_placements")
+}
+
+model Score {
+  id Int @id @default(autoincrement())
+
+  competition    Competition @relation(fields: [competition_id], references: [id])
+  competition_id Int
+
+  game    Game @relation(fields: [game_id], references: [id])
+  game_id Int
+
+  team    Team @relation(fields: [team_id], references: [id])
+  team_id Int
+
+  score Int
+
+  @@map("score")
 }
