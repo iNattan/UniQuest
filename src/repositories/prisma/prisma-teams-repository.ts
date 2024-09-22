@@ -24,6 +24,14 @@ export class PrismaTeamsRepository implements TeamsRepository {
     return teams
   }
 
+  async findByCompetitionId(competitionId: number) {
+    return await prisma.team.findMany({
+      where: {
+        competition_id: competitionId,
+      },
+    })
+  }
+
   async create(data: Prisma.TeamCreateInput) {
     const team = await prisma.team.create({
       data,

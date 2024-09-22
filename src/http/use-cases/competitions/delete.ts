@@ -1,12 +1,8 @@
 import { CompetitionsRepository } from '@/repositories/competitions-repository'
 import { NotFoundError } from '../errors/not-found-error'
-import { CompetitionGamesRepository } from '@/repositories/competition-games-repository'
 
 export class DeleteCompetitionUseCase {
-  constructor(
-    private competitionRepository: CompetitionsRepository,
-    private competitionGamesRepository: CompetitionGamesRepository,
-  ) {}
+  constructor(private competitionRepository: CompetitionsRepository) {}
 
   async execute(id: number): Promise<boolean> {
     const competitionExists = await this.competitionRepository.findById(id)
@@ -15,10 +11,8 @@ export class DeleteCompetitionUseCase {
       throw new NotFoundError('Competition')
     }
 
-    const competitionGamesDeleted =
-      await this.competitionGamesRepository.deleteByCompetitionId(id)
     const competitionDeleted = await this.competitionRepository.delete(id)
 
-    return competitionGamesDeleted && competitionDeleted
+    return competitionDeleted
   }
 }

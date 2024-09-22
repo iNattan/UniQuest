@@ -1,6 +1,7 @@
 import { generateBracket } from '@/http/utils/bracketUtils'
 import { DirectConfrontationMatchesRepository } from '@/repositories/direct-confrontation-matches-repository'
-import { DirectConfrontationMatch } from '@prisma/client'
+import { ScoresRepository } from '@/repositories/scores-repository'
+import { DirectConfrontationMatch, Prisma } from '@prisma/client'
 
 interface CreateDirectConfrotationMatchUseCaseRequest {
   competition_id: number
@@ -15,6 +16,7 @@ interface CreateDirectConfrotationMatchUseCaseResponse {
 export class CreateDirectConfrotationMatchUseCase {
   constructor(
     private directConfrontationMatchesRepository: DirectConfrontationMatchesRepository,
+    private scoresRepository: ScoresRepository,
   ) {}
 
   async execute({
@@ -25,6 +27,15 @@ export class CreateDirectConfrotationMatchUseCase {
     const matchesData = generateBracket(competition_id, game_id, teams)
 
     await this.directConfrontationMatchesRepository.createMany(matchesData)
+
+    const scoresData: Prisma.ScoreCreateManyInput[] = teams.map((team_id) => ({
+      competition_id,
+      game_id,
+      team_id,
+      score: 0,
+    }))
+
+    await this.scoresRepository.createMany(scoresData)
 
     const matches =
       await this.directConfrontationMatchesRepository.findByCompetitionAndGame(

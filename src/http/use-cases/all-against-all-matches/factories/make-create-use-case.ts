@@ -1,6 +1,6 @@
 import { PrismaAllAgainstAllMatchesRepository } from '@/repositories/prisma/prisma-all-against-all-matches-repository'
 import { PrismaAllAgainstAllPlacementsRepository } from '@/repositories/prisma/prisma-all-against-all-placements-repository'
-import { PrismaGamesRepository } from '@/repositories/prisma/prisma-games-repository'
+import { PrismaScoresRepository } from '@/repositories/prisma/prisma-scores-repository'
 import { CreateAllAgainstAllMatchUseCase } from '../create'
 
 export function makeCreateAllAgainstAllMatchesUseCase() {
@@ -8,12 +8,12 @@ export function makeCreateAllAgainstAllMatchesUseCase() {
     new PrismaAllAgainstAllMatchesRepository()
   const allAgainstAllPlacementsRepository =
     new PrismaAllAgainstAllPlacementsRepository()
-  const gamesRepository = new PrismaGamesRepository()
+  const scoresRepository = new PrismaScoresRepository()
 
   const createAllAgainstAllMatchUseCase = new CreateAllAgainstAllMatchUseCase(
     allAgainstAllMatchesRepository,
     allAgainstAllPlacementsRepository,
-    gamesRepository,
+    scoresRepository,
   )
 
   return createAllAgainstAllMatchUseCase

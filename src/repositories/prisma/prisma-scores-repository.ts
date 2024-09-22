@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma'
 import { ScoresRepository } from '../scores-repository'
+import { Prisma } from '@prisma/client'
 
 export class PrismaScoresRepository implements ScoresRepository {
   async findByCompetitionIdAndGameIdAndTeamId(
@@ -18,33 +19,12 @@ export class PrismaScoresRepository implements ScoresRepository {
     return score
   }
 
-  async findOrCreateScore(
-    competitionId: number,
-    gameId: number,
-    teamId: number,
-  ) {
-    const existingScore = await prisma.score.findFirst({
-      where: {
-        competition_id: competitionId,
-        game_id: gameId,
-        team_id: teamId,
-      },
+  async createMany(data: Prisma.ScoreCreateManyInput[]) {
+    const scores = await prisma.score.createMany({
+      data,
     })
 
-    if (existingScore) {
-      return existingScore
-    }
-
-    const newScore = await prisma.score.create({
-      data: {
-        competition_id: competitionId,
-        game_id: gameId,
-        team_id: teamId,
-        score: 0,
-      },
-    })
-
-    return newScore
+    return scores
   }
 
   async update(id: number, score: number) {
@@ -69,5 +49,19 @@ export class PrismaScoresRepository implements ScoresRepository {
         score,
       },
     })
+  }
+
+  async deleteMany(competitionId: number, gameId: number) {
+    try {
+      await prisma.score.deleteMany({
+        where: {
+          competition_id: competitionId,
+          game_id: gameId,
+        },
+      })
+      return true
+    } catch (err) {
+      return false
+    }
   }
 }
