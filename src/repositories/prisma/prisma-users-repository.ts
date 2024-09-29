@@ -6,6 +6,7 @@ export class PrismaUsersRepository implements UsersRepository {
   async findByEmail(email: string) {
     const user = await prisma.user.findUnique({
       where: {
+        system_deleted: null,
         email,
       },
     })
