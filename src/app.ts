@@ -11,8 +11,15 @@ import { teamMembersRoutes } from './http/controllers/team-members/routes'
 import { directConfrontationMatchesRoutes } from './http/controllers/direct-confrontation-matches/routes'
 import { allAgainstAllMatchesRoutes } from './http/controllers/all-against-all-matches/routes'
 import { scoresRoutes } from './http/controllers/scores/routes'
+import cors from '@fastify/cors'
 
 export const app = fastify()
+
+app.register(cors, {
+  origin: 'http://localhost:3000',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+  credentials: true, 
+})
 
 app.register(fastifyJwt, {
   secret: env.JWT_SECRET,
