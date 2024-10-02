@@ -15,10 +15,10 @@ describe('Create User Use Case', () => {
 
   it('should be able to register', async () => {
     const { user } = await sut.execute({
-      name: 'Diego',
-      email: 'diego@email.com',
-      password: '12345',
-      role: 0,
+      name: 'John Doe',
+      email: 'john.doe@example.com',
+      password: '123456',
+      role: 1,
     })
 
     expect(user.id).toEqual(expect.any(Number))
@@ -26,34 +26,34 @@ describe('Create User Use Case', () => {
 
   it('should hash user password upon registration', async () => {
     const { user } = await sut.execute({
-      name: 'Diego',
-      email: 'diego@email.com',
-      password: '12345',
-      role: 0,
+      name: 'John Doe',
+      email: 'john.doe@example.com',
+      password: '123456',
+      role: 1,
     })
 
-    const isPasswordCorrectlyHashed = await compare('12345', user.password_hash)
+    const isPasswordCorrectlyHashed = await compare('123456', user.password_hash)
 
     expect(isPasswordCorrectlyHashed).toBe(true)
   })
 
   it('should not be able to register with same email twice', async () => {
-    const email = 'diego@email.com'
+    const email = 'john.doe@example.com'
 
     await sut.execute({
-      name: 'Diego',
+      name: 'John Doe',
       email,
-      password: '12345',
-      role: 0,
+      password: '123456',
+      role: 1,
     })
 
     await expect(() =>
       sut.execute({
-        name: 'Diego',
+        name: 'John Doe',
         email,
-        password: '12345',
-        role: 0,
-      }),
+        password: '123456',
+        role: 1,
+      })
     ).rejects.toBeInstanceOf(UserAlreadyExistsError)
   })
 })

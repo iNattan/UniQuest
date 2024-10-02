@@ -7,7 +7,7 @@ interface UpdateTeamUseCaseRequest {
   id: number
   name?: string
   status?: number
-  situation?: number
+  is_private?: number
   password?: string
 }
 
@@ -22,7 +22,7 @@ export class UpdateTeamUseCase {
     id,
     name,
     status,
-    situation,
+    is_private,
     password,
   }: UpdateTeamUseCaseRequest): Promise<UpdateTeamUseCaseResponse> {
     const teamExists = await this.teamRepository.findById(id)
@@ -34,7 +34,7 @@ export class UpdateTeamUseCase {
     const updateData: Prisma.TeamUpdateInput = {
       name,
       status,
-      situation,
+      is_private,
     }
 
     if (password) {

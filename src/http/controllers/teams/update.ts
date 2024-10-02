@@ -11,13 +11,13 @@ export async function update(request: FastifyRequest, reply: FastifyReply) {
   const teamBodySchema = z.object({
     name: z.string().optional(),
     status: z.number().optional(),
-    situation: z.number().optional(),
+    is_private: z.number().optional(),
     password: z.string().optional(),
   })
 
   const { id } = paramsSchema.parse(request.params)
 
-  const { name, status, situation, password } = teamBodySchema.parse(
+  const { name, status, is_private, password } = teamBodySchema.parse(
     request.body,
   )
 
@@ -28,7 +28,7 @@ export async function update(request: FastifyRequest, reply: FastifyReply) {
       id,
       name,
       status,
-      situation,
+      is_private,
       password,
     })
 

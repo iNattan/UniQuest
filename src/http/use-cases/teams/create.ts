@@ -1,3 +1,4 @@
+import { TeamMembersRepository } from '@/repositories/team-members-repository'
 import { TeamsRepository } from '@/repositories/teams-repository'
 import { Prisma, Team } from '@prisma/client'
 import { hash } from 'bcryptjs'
@@ -5,9 +6,8 @@ import { hash } from 'bcryptjs'
 interface CreateTeamUseCaseRequest {
   competition_id: number
   name: string
-  status: number
-  password?: string
-  situation: number
+  is_private: number
+  password?: string  
   leader_user_id: number
 }
 
@@ -16,20 +16,21 @@ interface CreateTeamUseCaseResponse {
 }
 
 export class CreateTeamUseCase {
-  constructor(private teamRepository: TeamsRepository) {}
+  constructor(
+    private teamRepository: TeamsRepository,
+    private teamMemberRepository: TeamMembersRepository,
+  ) {}
 
   async execute({
     competition_id,
     name,
-    status,
-    situation,
+    is_private,
     password,
     leader_user_id,
   }: CreateTeamUseCaseRequest): Promise<CreateTeamUseCaseResponse> {
     const teamData: Prisma.TeamCreateInput = {
       name,
-      status,
-      situation,
+      is_private,
       competition: {
         connect: { id: competition_id },
       },
@@ -43,6 +44,15 @@ export class CreateTeamUseCase {
     }
 
     const team = await this.teamRepository.create(teamData)
+
+    await this.teamMemberRepository.create({
+      user: {
+        connect: { id: leader_user_id },
+      },
+      team: {
+        connect: { id: team.id },
+      },
+    })
 
     return {
       team,

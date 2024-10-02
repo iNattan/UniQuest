@@ -32,7 +32,7 @@ export class CreateTeamMemberUseCase {
       throw new NotFoundError('Team')
     }
 
-    if (team.situation === 1) {
+    if (team.is_private === 1) {
       if (!team.password_hash || !password) {
         throw new InvalidCredentialsError()
       }
