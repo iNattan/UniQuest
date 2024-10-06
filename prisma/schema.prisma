@@ -36,6 +36,7 @@ model Game {
 
   CompetitionGames CompetitionGame[]
 
+  created_at               DateTime                   @default(now())
   system_deleted           Int?
   system_date_deleted      DateTime?
   DirectConfrontationMatch DirectConfrontationMatch[]

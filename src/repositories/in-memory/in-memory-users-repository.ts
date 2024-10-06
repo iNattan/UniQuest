@@ -64,7 +64,7 @@ export class InMemoryUsersRepository implements UsersRepository {
     return user
   }
 
-  async update(id: number, data: Prisma.UserUpdateInput): Promise<User> {
+  async update(id: number, data: Prisma.UserUpdateInput) {
     const userIndex = this.items.findIndex((item) => item.id === id)
 
     const user = this.items[userIndex]
@@ -84,7 +84,7 @@ export class InMemoryUsersRepository implements UsersRepository {
     return updatedUser
   }
 
-  async delete(id: number): Promise<boolean> {
+  async delete(id: number) {
     const userIndex = this.items.findIndex((item) => item.id === id)
 
     if (userIndex === -1) {

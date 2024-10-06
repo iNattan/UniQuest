@@ -5,7 +5,7 @@ import { AllAgainstAllPlacementsRepository } from '../all-against-all-placements
 export class PrismaAllAgainstAllPlacementsRepository
   implements AllAgainstAllPlacementsRepository
 {
-  async findByMatchId(matchId: number): Promise<AllAgainstAllPlacement[]> {
+  async findByMatchId(matchId: number) {
     return await prisma.allAgainstAllPlacement.findMany({
       where: {
         match_id: matchId,
@@ -13,7 +13,7 @@ export class PrismaAllAgainstAllPlacementsRepository
     })
   }
 
-  async findById(id: number): Promise<AllAgainstAllPlacement | null> {
+  async findById(id: number){
     return await prisma.allAgainstAllPlacement.findUnique({
       where: {
         id,
@@ -24,7 +24,7 @@ export class PrismaAllAgainstAllPlacementsRepository
   async findByMatchIdAndTeamId(
     matchId: number,
     teamId: number,
-  ): Promise<AllAgainstAllPlacement | null> {
+  ) {
     return await prisma.allAgainstAllPlacement.findFirst({
       where: {
         match_id: matchId,
@@ -35,7 +35,7 @@ export class PrismaAllAgainstAllPlacementsRepository
 
   async createMany(
     data: Prisma.AllAgainstAllPlacementCreateManyInput[],
-  ): Promise<Prisma.BatchPayload> {
+  ) {
     return await prisma.allAgainstAllPlacement.createMany({
       data,
     })
@@ -44,14 +44,14 @@ export class PrismaAllAgainstAllPlacementsRepository
   async update(
     id: number,
     data: Prisma.AllAgainstAllPlacementUpdateInput,
-  ): Promise<AllAgainstAllPlacement> {
+  ) {
     return await prisma.allAgainstAllPlacement.update({
       where: { id },
       data,
     })
   }
 
-  async deleteMany(matchId: number): Promise<boolean> {
+  async deleteMany(matchId: number) {
     try {
       await prisma.allAgainstAllPlacement.deleteMany({
         where: {

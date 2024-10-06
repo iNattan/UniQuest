@@ -4,7 +4,7 @@ import { TeamMembersRepository } from '../team-members-repository'
 export class InMemoryTeamMembersRepository implements TeamMembersRepository {
   public members: TeamMember[] = []
 
-  async findByUserAndTeamId(userId: number, teamId: number): Promise<TeamMember | null> {
+  async findByUserAndTeamId(userId: number, teamId: number) {
     const teamMember = this.members.find(
       (member) => member.user_id === userId && member.team_id === teamId
     )
@@ -16,7 +16,7 @@ export class InMemoryTeamMembersRepository implements TeamMembersRepository {
     return teamMember
   }
 
-  async create(data: Prisma.TeamMemberCreateInput): Promise<TeamMember> {
+  async create(data: Prisma.TeamMemberCreateInput) {
     const teamMember: TeamMember = {
       id: this.members.length + 1,
       user_id: data.user.connect?.id as number,
@@ -28,7 +28,7 @@ export class InMemoryTeamMembersRepository implements TeamMembersRepository {
     return teamMember
   }
 
-  async delete(id: number): Promise<boolean> {
+  async delete(id: number) {
     const teamMemberIndex = this.members.findIndex((item) => item.id === id)
 
     if (teamMemberIndex === -1) {

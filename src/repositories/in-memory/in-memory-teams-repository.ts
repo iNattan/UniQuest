@@ -4,7 +4,7 @@ import { TeamsRepository } from '../teams-repository'
 export class InMemoryTeamsRepository implements TeamsRepository {
   public items: Team[] = []
 
-  async findById(id: number): Promise<Team | null> {
+  async findById(id: number) {
     const team = this.items.find((item) => item.id === id)
 
     if (!team) {
@@ -14,7 +14,7 @@ export class InMemoryTeamsRepository implements TeamsRepository {
     return team
   }
 
-  async findMany(filter?: string): Promise<Team[]> {
+  async findMany(filter?: string) {
     const filteredTeams = this.items.filter((team) => {
       const isActive = team.system_deleted === null || team.system_deleted === undefined
 
@@ -34,13 +34,13 @@ export class InMemoryTeamsRepository implements TeamsRepository {
     return filteredTeams
   }
 
-  async findByCompetitionId(competitionId: number): Promise<Team[]> {
+  async findByCompetitionId(competitionId: number) {
     return this.items.filter(
       (team) => team.competition_id === competitionId && (team.system_deleted === null || team.system_deleted === undefined)
     )
   }
 
-  async create(data: Prisma.TeamCreateInput): Promise<Team> {
+  async create(data: Prisma.TeamCreateInput) {
     const team: Team = {
       id: this.items.length + 1,
       name: data.name,
@@ -59,7 +59,7 @@ export class InMemoryTeamsRepository implements TeamsRepository {
     return team
   }
 
-  async update(id: number, data: Prisma.TeamUpdateInput): Promise<Team> {
+  async update(id: number, data: Prisma.TeamUpdateInput) {
     const teamIndex = this.items.findIndex((item) => item.id === id)
 
     if (teamIndex === -1) {
@@ -93,7 +93,7 @@ export class InMemoryTeamsRepository implements TeamsRepository {
     return updatedTeam
   }
 
-  async delete(id: number): Promise<boolean> {
+  async delete(id: number) {
     const teamIndex = this.items.findIndex((item) => item.id === id)
 
     if (teamIndex === -1) {

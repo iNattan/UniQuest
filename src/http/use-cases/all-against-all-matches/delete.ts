@@ -17,7 +17,7 @@ export class DeleteAllAgainstAllMatchUseCase {
         game_id,
       )
 
-    if (!allAgainstAllMatchesExists) {
+    if (!allAgainstAllMatchesExists || allAgainstAllMatchesExists.length === 0) {
       throw new NotFoundError('AllAgainstAllMatch')
     }
 

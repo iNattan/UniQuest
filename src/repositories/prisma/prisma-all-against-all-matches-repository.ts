@@ -8,7 +8,7 @@ export class PrismaAllAgainstAllMatchesRepository
   async findByCompetitionAndGame(
     competitionId: number,
     gameId: number,
-  ): Promise<AllAgainstAllMatch[]> {
+  ) {
     return await prisma.allAgainstAllMatch.findMany({
       where: {
         competition_id: competitionId,
@@ -17,7 +17,7 @@ export class PrismaAllAgainstAllMatchesRepository
     })
   }
 
-  async findById(id: number): Promise<AllAgainstAllMatch | null> {
+  async findById(id: number) {
     const match = await prisma.allAgainstAllMatch.findUnique({
       where: {
         id,
@@ -35,7 +35,7 @@ export class PrismaAllAgainstAllMatchesRepository
     return match
   }
 
-  async deleteMany(competitionId: number, gameId: number): Promise<boolean> {
+  async deleteMany(competitionId: number, gameId: number) {
     try {
       await prisma.allAgainstAllMatch.deleteMany({
         where: {
