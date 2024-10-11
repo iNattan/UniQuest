@@ -11,7 +11,7 @@ import { verifyUserRole } from '@/http/middlewares/verify-user-role'
 
 export async function usersRoutes(app: FastifyInstance) {
   app.post('/users', create)
-  app.post('/sessions', { onRequest: verifyJWT }, authenticate)
+  app.post('/sessions', authenticate)
 
   app.put('/users/:id', { onRequest: [verifyJWT, verifyUserRole(1)] }, update)
 
