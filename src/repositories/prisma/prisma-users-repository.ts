@@ -32,7 +32,6 @@ export class PrismaUsersRepository implements UsersRepository {
           ? {
               OR: [
                 { name: { contains: filter, mode: 'insensitive' } },
-                { email: { contains: filter, mode: 'insensitive' } },
               ],
             }
           : {}),
