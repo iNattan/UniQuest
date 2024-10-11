@@ -16,7 +16,7 @@ import cors from '@fastify/cors'
 export const app = fastify()
 
 app.register(cors, {
-  origin: 'http://localhost:3000',
+  origin: ['http://localhost:3000', 'https://uniquest-production.up.railway.app'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   credentials: true, 
 })
