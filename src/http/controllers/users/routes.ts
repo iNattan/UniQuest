@@ -15,7 +15,7 @@ export async function usersRoutes(app: FastifyInstance) {
 
   app.put('/users/:id', { onRequest: [verifyJWT, verifyUserRole(1)] }, update)
 
-  app.patch('/token/refresh', { onRequest: verifyJWT }, refresh)
+  app.patch('/token/refresh', refresh)
 
   app.delete('/users/:id', { onRequest: [verifyJWT, verifyUserRole(1)] }, delete_)
 
