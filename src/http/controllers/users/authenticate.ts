@@ -24,7 +24,7 @@ export async function authenticate(
 
     const token = await reply.jwtSign(
       {
-        role: user.role.toString(),
+        role: user.role,
       },
       {
         sign: {
@@ -35,7 +35,7 @@ export async function authenticate(
 
     const refreshToken = await reply.jwtSign(
       {
-        role: user.role.toString(),
+        role: user.role,
       },
       {
         sign: {
@@ -44,6 +44,8 @@ export async function authenticate(
         },
       },
     )
+
+    console.log('Role recebido no token:', user.role);
 
     return reply
       .setCookie('refreshToken', refreshToken, {
