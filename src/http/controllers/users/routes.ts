@@ -8,6 +8,7 @@ import { delete_ } from './delete_'
 import { verifyJWT } from '@/http/middlewares/verify-jwt'
 import { me } from './me'
 import { verifyUserRole } from '@/http/middlewares/verify-user-role'
+import { logout } from './logout'
 
 export async function usersRoutes(app: FastifyInstance) {
   app.post('/users', create)
@@ -21,4 +22,6 @@ export async function usersRoutes(app: FastifyInstance) {
 
   app.get('/users', { onRequest: [verifyJWT, verifyUserRole(1)] }, get)
   app.get('/users/me', { onRequest: verifyJWT }, me)
+
+  app.post('/logout', { onRequest: verifyJWT }, logout)
 }
