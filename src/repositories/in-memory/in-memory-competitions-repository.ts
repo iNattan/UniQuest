@@ -17,7 +17,10 @@ export class InMemoryCompetitionsRepository implements CompetitionsRepository {
         : true
 
       return isActive && matchesFilter
-    })
+    }).map(competition => ({
+      ...competition,
+      CompetitionGames: [],
+    }))
   }
 
   async create(data: Prisma.CompetitionCreateInput) {

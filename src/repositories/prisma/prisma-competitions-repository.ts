@@ -20,7 +20,11 @@ export class PrismaCompetitionsRepository implements CompetitionsRepository {
         ...(filter ? { title: { contains: filter, mode: 'insensitive' } } : {}),
       },
       include: {
-        CompetitionGames: true,
+        CompetitionGames: {
+          include: {
+            game: true, 
+          },
+        },
       },
     })
 

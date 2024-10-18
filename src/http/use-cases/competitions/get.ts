@@ -5,8 +5,26 @@ interface GetCompetitionUseCaseRequest {
   filter?: string
 }
 
+interface Game {
+  id: number
+  name: string
+}
+
+interface CompetitionGame {
+  id: number
+  local: string
+  date_game: string
+  competition_id: number
+  game_id: number
+  game?: Game
+}
+
+interface CompetitionWithGames extends Competition {
+  CompetitionGames: CompetitionGame[]
+}
+
 interface GetCompetitionUseCaseResponse {
-  competitions: Competition[]
+  competitions: CompetitionWithGames[]
 }
 
 export class GetCompetitionUseCase {
@@ -17,8 +35,20 @@ export class GetCompetitionUseCase {
   }: GetCompetitionUseCaseRequest): Promise<GetCompetitionUseCaseResponse> {
     const competitions = await this.competitionsRepository.findMany(filter)
 
+    const competitionsWithGameName = competitions.map(competition => ({
+      ...competition,
+      CompetitionGames: (competition as CompetitionWithGames).CompetitionGames.map(compGame => ({
+        id: compGame.id,
+        local: compGame.local,
+        date_game: compGame.date_game,
+        competition_id: compGame.competition_id,
+        game_id: compGame.game_id,
+        game_name: compGame.game?.name,
+      })),
+    }));
+
     return {
-      competitions,
+      competitions: competitionsWithGameName,
     }
   }
 }
