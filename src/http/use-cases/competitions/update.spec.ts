@@ -53,7 +53,7 @@ describe('Update Competition Use Case', () => {
 
     const { competitionGames } = await sut.execute({
       id: createdCompetition.id,
-      games: [
+      CompetitionGames: [
         {
           game_id: 1,
           local: 'Game Local 1',

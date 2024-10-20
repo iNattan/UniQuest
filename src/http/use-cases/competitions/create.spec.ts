@@ -40,7 +40,7 @@ describe('Create Competition Use Case', () => {
       max_participant: 16,
       local: 'Local',
       description: 'Test',
-      games: [
+      CompetitionGames: [
         { local: 'Game Local 1', date_game: new Date(), game_id: 1 },
         { local: 'Game Local 2', date_game: new Date(), game_id: 2 },
       ],
