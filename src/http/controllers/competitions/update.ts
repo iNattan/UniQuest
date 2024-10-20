@@ -42,6 +42,8 @@ export async function update(request: FastifyRequest, reply: FastifyReply) {
     local,
     description,
     CompetitionGames,
+    image,
+    regulation,
   } = competitionBodySchema.parse(request.body)
 
   try {
@@ -58,6 +60,8 @@ export async function update(request: FastifyRequest, reply: FastifyReply) {
       local,
       description,
       CompetitionGames,
+      image,
+      regulation,
     })
 
     return reply.status(200).send()

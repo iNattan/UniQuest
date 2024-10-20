@@ -51,6 +51,8 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
     local,
     description,
     CompetitionGames,
+    image,
+    regulation,
   })
 
   return reply.status(201).send()
