@@ -12,7 +12,7 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
     max_participant: z.number(),
     local: z.string(),
     description: z.string().optional(),
-    games: z
+    CompetitionGames: z
       .array(
         z.object({
           local: z.string(),
@@ -32,7 +32,7 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
     max_participant,
     local,
     description,
-    games,
+    CompetitionGames,
   } = competitionBodySchema.parse(request.body)
 
   const createCompetitionUseCase = makeCreateCompetitionUseCase()
@@ -46,7 +46,7 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
     max_participant,
     local,
     description,
-    games,
+    CompetitionGames,
   })
 
   return reply.status(201).send()

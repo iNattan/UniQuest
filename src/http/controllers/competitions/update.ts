@@ -17,7 +17,7 @@ export async function update(request: FastifyRequest, reply: FastifyReply) {
     max_participant: z.number().optional(),
     local: z.string().optional(),
     description: z.string().optional(),
-    games: z
+    CompetitionGames: z
       .array(
         z.object({
           local: z.string(),
@@ -39,7 +39,7 @@ export async function update(request: FastifyRequest, reply: FastifyReply) {
     max_participant,
     local,
     description,
-    games,
+    CompetitionGames,
   } = competitionBodySchema.parse(request.body)
 
   try {
@@ -55,7 +55,7 @@ export async function update(request: FastifyRequest, reply: FastifyReply) {
       max_participant,
       local,
       description,
-      games,
+      CompetitionGames,
     })
 
     return reply.status(200).send()

@@ -19,7 +19,7 @@ interface UpdateCompetitionUseCaseRequest {
   max_participant?: number
   local?: string
   description?: string
-  games?: Array<UpdateCompetitionGamesUseCaseRequest>
+  CompetitionGames?: Array<UpdateCompetitionGamesUseCaseRequest>
 }
 
 interface UpdateCompetitionUseCaseResponse {
@@ -43,7 +43,7 @@ export class UpdateCompetitionUseCase {
     max_participant,
     local,
     description,
-    games,
+    CompetitionGames,
   }: UpdateCompetitionUseCaseRequest): Promise<UpdateCompetitionUseCaseResponse> {
     const competitionExists = await this.competitionRepository.findById(id)
 
@@ -63,10 +63,10 @@ export class UpdateCompetitionUseCase {
     })
 
     let competitionGames: CompetitionGame[] = []
-    if (games) {
+    if (CompetitionGames) {
       await this.competitionGamesRepository.deleteByCompetitionId(id)
 
-      const competitionGamesData = games.map((game) => ({
+      const competitionGamesData = CompetitionGames.map((game) => ({
         competition_id: id,
         game_id: game.game_id,
         local: game.local,
