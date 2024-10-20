@@ -18,6 +18,8 @@ interface CreateCompetitionUseCaseRequest {
   local: string
   description?: string
   CompetitionGames?: Array<CreateCompetitionGamesUseCaseRequest>
+  image?: string
+  regulation?: string
 }
 
 interface CreateCompetitionUseCaseResponse {
@@ -41,6 +43,8 @@ export class CreateCompetitionUseCase {
     local,
     description,
     CompetitionGames,
+    image,
+    regulation,
   }: CreateCompetitionUseCaseRequest): Promise<CreateCompetitionUseCaseResponse> {
     const competition = await this.competitionRepository.create({
       title,
@@ -51,6 +55,8 @@ export class CreateCompetitionUseCase {
       max_participant,
       local,
       description,
+      image,
+      regulation,
     })
 
     let competitionGames: CompetitionGame[] = []

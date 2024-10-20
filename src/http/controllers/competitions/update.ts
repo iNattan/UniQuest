@@ -26,6 +26,8 @@ export async function update(request: FastifyRequest, reply: FastifyReply) {
         }),
       )
       .optional(),
+    image: z.string().optional(),
+    regulation: z.string().optional(),
   })
 
   const { id } = paramsSchema.parse(request.params)

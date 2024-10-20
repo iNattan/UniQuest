@@ -21,6 +21,8 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
         }),
       )
       .optional(),
+    image: z.string().optional(),
+    regulation: z.string().optional(),
   })
 
   const {
@@ -33,6 +35,8 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
     local,
     description,
     CompetitionGames,
+    image,
+    regulation,
   } = competitionBodySchema.parse(request.body)
 
   const createCompetitionUseCase = makeCreateCompetitionUseCase()
