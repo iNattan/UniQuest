@@ -21,7 +21,9 @@ interface UpdateCompetitionUseCaseRequest {
   description?: string
   CompetitionGames?: Array<UpdateCompetitionGamesUseCaseRequest>
   image?: string
+  image_name?: string
   regulation?: string
+  regulation_name?: string
 }
 
 interface UpdateCompetitionUseCaseResponse {
@@ -47,7 +49,9 @@ export class UpdateCompetitionUseCase {
     description,
     CompetitionGames,
     image,
+    image_name,
     regulation,
+    regulation_name,
   }: UpdateCompetitionUseCaseRequest): Promise<UpdateCompetitionUseCaseResponse> {
     const competitionExists = await this.competitionRepository.findById(id)
 
@@ -65,7 +69,9 @@ export class UpdateCompetitionUseCase {
       local,
       description,
       image,
+      image_name,
       regulation,
+      regulation_name,
     })
 
     let competitionGames: CompetitionGame[] = []

@@ -58,6 +58,8 @@ model Competition {
   description        String?
   image              String?
   regulation         String?
+  image_name         String?
+  regulation_name    String?
 
   CompetitionGames CompetitionGame[]
   Teams            Team[]

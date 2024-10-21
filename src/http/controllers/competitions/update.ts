@@ -27,7 +27,9 @@ export async function update(request: FastifyRequest, reply: FastifyReply) {
       )
       .optional(),
     image: z.string().optional(),
+    image_name: z.string().optional(),
     regulation: z.string().optional(),
+    regulation_name: z.string().optional(),
   })
 
   const { id } = paramsSchema.parse(request.params)
@@ -43,7 +45,9 @@ export async function update(request: FastifyRequest, reply: FastifyReply) {
     description,
     CompetitionGames,
     image,
+    image_name,    
     regulation,
+    regulation_name,
   } = competitionBodySchema.parse(request.body)
 
   try {
@@ -61,7 +65,9 @@ export async function update(request: FastifyRequest, reply: FastifyReply) {
       description,
       CompetitionGames,
       image,
+      image_name,
       regulation,
+      regulation_name,
     })
 
     return reply.status(200).send()
