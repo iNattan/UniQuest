@@ -12,5 +12,5 @@ export async function teamsRoutes(app: FastifyInstance) {
 
   app.delete('/teams/:id', delete_)
 
-  app.get('/teams', get)
+  app.get('/:competitionId/teams', get)
 }

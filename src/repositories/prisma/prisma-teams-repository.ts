@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma'
-import { Prisma } from '@prisma/client'
+import { Prisma, Team } from '@prisma/client'
 import { TeamsRepository } from '../teams-repository'
 
 export class PrismaTeamsRepository implements TeamsRepository {
@@ -13,15 +13,45 @@ export class PrismaTeamsRepository implements TeamsRepository {
     return team
   }
 
-  async findMany(filter?: string) {
+  async findMany(competitionId: number, filter?: string) {
     const teams = await prisma.team.findMany({
       where: {
         system_deleted: null,
-        ...(filter ? { name: { contains: filter, mode: 'insensitive' } } : {}),
+        status: null,
+        competition_id: competitionId,
+        ...(filter
+          ? {
+              name: {
+                contains: filter,
+                mode: 'insensitive',
+              },
+            }
+          : {}),
       },
-    })
+      select: {
+        id: true,
+        competition_id: true,
+        name: true,
+        status: true,
+        is_private: true,
+        leader_user_id: true,
+        created_at: true,
+        system_deleted: true,
+        system_date_deleted: true,
+        _count: {
+          select: {
+            TeamMember: true, 
+          },
+        },
+        competition: {
+          select: {
+            max_participant: true, 
+          },
+        },
+      },
+    });
 
-    return teams
+    return teams;
   }
 
   async findByCompetitionId(competitionId: number) {

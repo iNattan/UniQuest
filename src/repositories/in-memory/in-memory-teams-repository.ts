@@ -14,7 +14,7 @@ export class InMemoryTeamsRepository implements TeamsRepository {
     return team
   }
 
-  async findMany(filter?: string) {
+  async findMany(competitionId: number, filter?: string) {
     const filteredTeams = this.items.filter((team) => {
       const isActive = team.system_deleted === null || team.system_deleted === undefined
 

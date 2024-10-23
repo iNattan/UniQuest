@@ -4,16 +4,22 @@ import { makeGetTeamUseCase } from '../../use-cases/teams/factories/make-get-use
 import { NotFoundError } from '@/http/use-cases/errors/not-found-error'
 
 export async function get(request: FastifyRequest, reply: FastifyReply) {
+  const paramsSchema = z.object({
+    competitionId: z.string().regex(/^\d+$/).transform(Number),
+  })
+
   const teamBodySchema = z.object({
     filter: z.string().optional(),
   })
 
+  const { competitionId } = paramsSchema.parse(request.params)
   const { filter } = teamBodySchema.parse(request.query)
 
   try {
     const getTeamUseCase = makeGetTeamUseCase()
 
     const teams = await getTeamUseCase.execute({
+      competitionId,
       filter,
     })
 
