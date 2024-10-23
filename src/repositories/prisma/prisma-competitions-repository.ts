@@ -8,8 +8,39 @@ export class PrismaCompetitionsRepository implements CompetitionsRepository {
       where: {
         id,
       },
+      select: {
+        id: true,
+        title: true,
+        date_event: true,
+        start_registration: true,
+        end_registration: true,
+        min_participant: true,
+        max_participant: true,
+        local: true,
+        description: true,
+        image: true,
+        image_name: true,
+        regulation_name: true,
+        created_at: true,
+        system_deleted: true,
+        system_date_deleted: true,
+        CompetitionGames: {
+          select: {
+            id: true,
+            local: true,
+            date_game: true,
+            competition_id: true,
+            game_id: true,
+            game: {
+              select: {
+                name: true, 
+              },
+            },
+          },
+        },
+      },
     })
-
+  
     return competition
   }
 

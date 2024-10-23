@@ -5,6 +5,7 @@ import { update } from './update'
 import { delete_ } from './delete_'
 import { getImages } from './get-images'
 import { getRegulation } from './get-regulation'
+import { getById } from './get-by-id'
 
 export async function competitionsRoutes(app: FastifyInstance) {
   app.post('/competitions', create)
@@ -14,6 +15,7 @@ export async function competitionsRoutes(app: FastifyInstance) {
   app.delete('/competitions/:id', delete_)
 
   app.get('/competitions', get)
+  app.get('/competitions/:id', getById)
   app.get('/competitions/images', getImages)
   app.get('/competitions/regulation/:id', getRegulation)
 }
