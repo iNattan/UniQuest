@@ -1,6 +1,8 @@
 import { CompetitionsRepository } from '@/repositories/competitions-repository'
 import { Competition } from '@prisma/client'
 
+type CompetitionWithoutImageAndRegulation = Omit<Competition, 'image' | 'regulation'>
+
 interface GetCompetitionUseCaseRequest {
   filter?: string
 }
@@ -19,7 +21,7 @@ interface CompetitionGame {
   game?: Game
 }
 
-interface CompetitionWithGames extends Competition {
+interface CompetitionWithGames extends CompetitionWithoutImageAndRegulation {
   CompetitionGames: CompetitionGame[]
 }
 

@@ -9,6 +9,22 @@ export class InMemoryCompetitionsRepository implements CompetitionsRepository {
     return competition || null
   }
 
+  async findRegulationById(id: number) {
+    const competition = this.items.find((item) => item.id === id)
+    if (!competition) return null
+
+    return { regulation: competition.regulation }
+  }
+
+  async findManyImages() {
+    return this.items
+      .filter(competition => competition.system_deleted === null)
+      .map(competition => ({
+        id: competition.id,
+        image: competition.image,
+      }))
+  }
+
   async findMany(filter?: string) {
     return this.items.filter((competition) => {
       const isActive = competition.system_deleted === null
@@ -37,6 +53,10 @@ export class InMemoryCompetitionsRepository implements CompetitionsRepository {
       created_at: new Date(),
       system_deleted: null,
       system_date_deleted: null,
+      image: data.image ?? null,
+      regulation: data.regulation ?? null,
+      image_name: data.image_name ?? null,
+      regulation_name: data.regulation_name ?? null,
     }
 
     this.items.push(newCompetition)

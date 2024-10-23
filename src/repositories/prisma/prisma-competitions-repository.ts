@@ -13,16 +13,69 @@ export class PrismaCompetitionsRepository implements CompetitionsRepository {
     return competition
   }
 
+  async findRegulationById(id: number) {
+    const competition = await prisma.competition.findUnique({
+      where: {
+        id,
+      },
+      select: {
+        regulation: true,
+      },
+    })
+
+    return competition
+  }
+
+  async findManyImages() {
+    const competitions = await prisma.competition.findMany({
+      where: {
+        system_deleted: null,
+      },
+      select: {
+        id: true,
+        image: true, 
+      },
+      orderBy: {
+        created_at: 'desc',
+      },
+    })
+
+    return competitions
+  }
+
   async findMany(filter?: string) {
     const competitions = await prisma.competition.findMany({
       where: {
         system_deleted: null,
         ...(filter ? { title: { contains: filter, mode: 'insensitive' } } : {}),
       },
-      include: {
+      select: {
+        id: true,
+        title: true,
+        date_event: true,
+        start_registration: true,
+        end_registration: true,
+        min_participant: true,
+        max_participant: true,
+        local: true,
+        description: true,
+        image_name: true,
+        regulation_name: true,
+        created_at: true,
+        system_deleted: true,
+        system_date_deleted: true,
         CompetitionGames: {
-          include: {
-            game: true, 
+          select: {
+            id: true,
+            local: true,
+            date_game: true,
+            competition_id: true,
+            game_id: true,
+            game: {
+              select: {
+                name: true,
+              },
+            },
           },
         },
       },
@@ -30,6 +83,7 @@ export class PrismaCompetitionsRepository implements CompetitionsRepository {
 
     return competitions
   }
+  
 
   async create(data: Prisma.CompetitionCreateInput) {
     const competition = await prisma.competition.create({
