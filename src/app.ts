@@ -13,7 +13,9 @@ import { allAgainstAllMatchesRoutes } from './http/controllers/all-against-all-m
 import { scoresRoutes } from './http/controllers/scores/routes'
 import cors from '@fastify/cors'
 
-export const app = fastify()
+export const app = fastify({
+  bodyLimit: 10485760 
+})
 
 app.register(cors, {
   origin: ['http://localhost:3000', 'https://uniquest-production.up.railway.app'],
