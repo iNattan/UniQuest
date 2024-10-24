@@ -15,6 +15,17 @@ export class InMemoryTeamMembersRepository implements TeamMembersRepository {
 
     return teamMember
   }
+
+  async findByUserAndCompetitionId(userId: number, competitionId: number): Promise<number | null> {
+    const teamMember = this.members.find(
+      (member) => {
+        const team = { competition_id: 1 };
+        return member.user_id === userId && team.competition_id === competitionId;
+      }
+    );
+
+    return teamMember ? teamMember.team_id : null;
+  }
   
   async findManyByTeamId(teamId: number) {
     return this.members

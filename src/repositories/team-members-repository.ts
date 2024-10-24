@@ -16,6 +16,10 @@ export interface TeamMembersRepository {
     userId: number,
     teamId: number,
   ): Promise<TeamMember | null>
+  findByUserAndCompetitionId(
+    userId: number,
+    competitionId: number,
+  ): Promise<number | null>
   findManyByTeamId(teamId: number): Promise<TeamMemberWithNames[]>
   create(data: Prisma.TeamMemberCreateInput): Promise<TeamMember>
   delete(id: number): Promise<boolean>

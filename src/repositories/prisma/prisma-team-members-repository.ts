@@ -12,6 +12,22 @@ export class PrismaTeamMembersRepository implements TeamMembersRepository {
     })
   }
 
+  async findByUserAndCompetitionId(userId: number, competitionId: number): Promise<number | null> {
+    const teamMember = await prisma.teamMember.findFirst({
+      where: {
+        user_id: userId,
+        team: {
+          competition_id: competitionId,
+        },
+      },
+      select: {
+        team_id: true,
+      },
+    });
+
+    return teamMember ? teamMember.team_id : null;
+  }
+
   async findManyByTeamId(teamId: number) {
     const teamMembers = await prisma.teamMember.findMany({
       where: {
