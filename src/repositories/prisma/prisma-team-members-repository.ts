@@ -12,6 +12,28 @@ export class PrismaTeamMembersRepository implements TeamMembersRepository {
     })
   }
 
+  async findManyByTeamId(teamId: number) {
+    const teamMembers = await prisma.teamMember.findMany({
+      where: {
+          team_id: teamId,
+      },
+      include: {
+          user: {
+              select: {
+                  name: true, 
+              },
+          },
+          team: {
+              select: {
+                  name: true, 
+              },
+          },
+      },
+  });
+
+  return teamMembers;
+  }
+    
   async create(data: Prisma.TeamMemberCreateInput) {
     const teamMember = await prisma.teamMember.create({
       data,

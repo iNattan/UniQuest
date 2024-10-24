@@ -15,6 +15,16 @@ export class InMemoryTeamMembersRepository implements TeamMembersRepository {
 
     return teamMember
   }
+  
+  async findManyByTeamId(teamId: number) {
+    return this.members
+      .filter((member) => member.team_id === teamId)
+      .map((member) => ({
+        ...member,
+        user: { id: member.user_id, name: 'User Name' }, 
+        team: { id: member.team_id, name: 'Team Name' },  
+      }))
+  }
 
   async create(data: Prisma.TeamMemberCreateInput) {
     const teamMember: TeamMember = {
