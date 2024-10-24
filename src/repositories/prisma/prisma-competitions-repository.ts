@@ -33,7 +33,8 @@ export class PrismaCompetitionsRepository implements CompetitionsRepository {
             game_id: true,
             game: {
               select: {
-                name: true, 
+                name: true,                 
+                category: true,
               },
             },
           },

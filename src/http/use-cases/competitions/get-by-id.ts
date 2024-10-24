@@ -9,6 +9,7 @@ interface GetCompetitionByIdUseCaseRequest {
 
 interface Game {
   id: number
+  category: number
   name: string
 }
 
@@ -36,6 +37,7 @@ export class GetCompetitionByIdUseCase {
     id,
   }: GetCompetitionByIdUseCaseRequest): Promise<GetCompetitionByIdUseCaseResponse> {
     const competition = await this.competitionsRepository.findById(id)
+    console.log(competition)
 
     if (!competition) {
       return { competition: null }
@@ -51,6 +53,7 @@ export class GetCompetitionByIdUseCase {
             competition_id: compGame.competition_id,
             game_id: compGame.game_id,
             game_name: compGame.game?.name,
+            game_category: compGame.game?.category, 
           }))
         : [], 
     }
