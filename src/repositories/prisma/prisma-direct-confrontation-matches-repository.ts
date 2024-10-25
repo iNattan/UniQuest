@@ -17,13 +17,13 @@ export class PrismaDirectConfrontationMatchesRepository
         game_id: true,
         round: true,
         match: true,
-        team1_id: true,        
+        team1_id: true,
         team1: {
           select: {
             name: true,
           },
         },
-        team2_id: true,        
+        team2_id: true,
         team2: {
           select: {
             name: true,
@@ -35,6 +35,9 @@ export class PrismaDirectConfrontationMatchesRepository
             name: true,
           },
         },
+      },
+      orderBy: {
+        id: 'asc',
       },
     })
   }
