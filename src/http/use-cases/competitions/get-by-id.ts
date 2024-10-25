@@ -43,18 +43,20 @@ export class GetCompetitionByIdUseCase {
     }
 
     const competitionWithGameName = {
-      ...competition as CompetitionWithGames,
-      CompetitionGames: (competition as CompetitionWithGames).CompetitionGames 
-        ? (competition as CompetitionWithGames).CompetitionGames.map(compGame => ({
-            id: compGame.id,
-            local: compGame.local,
-            date_game: compGame.date_game,
-            competition_id: compGame.competition_id,
-            game_id: compGame.game_id,
-            game_name: compGame.game?.name,
-            game_category: compGame.game?.category, 
-          }))
-        : [], 
+      ...(competition as CompetitionWithGames),
+      CompetitionGames: (competition as CompetitionWithGames).CompetitionGames
+        ? (competition as CompetitionWithGames).CompetitionGames.map(
+            (compGame) => ({
+              id: compGame.id,
+              local: compGame.local,
+              date_game: compGame.date_game,
+              competition_id: compGame.competition_id,
+              game_id: compGame.game_id,
+              game_name: compGame.game?.name,
+              game_category: compGame.game?.category,
+            }),
+          )
+        : [],
     }
 
     return {

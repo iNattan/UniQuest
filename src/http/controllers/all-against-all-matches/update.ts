@@ -2,6 +2,7 @@ import { FastifyRequest, FastifyReply } from 'fastify'
 import { z } from 'zod'
 import { makeUpdateAllAgainstAllMatchUseCase } from '../../use-cases/all-against-all-matches/factories/make-update-use-case'
 import { NotFoundError } from '@/http/use-cases/errors/not-found-error'
+import { makeUpdateScoreUseCase } from '../../use-cases/scores/factories/make-update-use-case'
 
 export async function update(request: FastifyRequest, reply: FastifyReply) {
   const paramsSchema = z.object({
@@ -9,6 +10,8 @@ export async function update(request: FastifyRequest, reply: FastifyReply) {
   })
 
   const placementsBodySchema = z.object({
+    competition_id: z.number(),
+    game_id: z.number(),
     placements: z.array(
       z.object({
         team_id: z.number(),
@@ -18,7 +21,9 @@ export async function update(request: FastifyRequest, reply: FastifyReply) {
   })
 
   const { match_id } = paramsSchema.parse(request.params)
-  const { placements } = placementsBodySchema.parse(request.body)
+  const { competition_id, game_id, placements } = placementsBodySchema.parse(
+    request.body,
+  )
 
   try {
     const updateAllAgainstAllMatchUseCase =
@@ -28,6 +33,17 @@ export async function update(request: FastifyRequest, reply: FastifyReply) {
       match_id,
       placements,
     })
+
+    const updateScoresUseCase = makeUpdateScoreUseCase()
+
+    const { success } = await updateScoresUseCase.execute({
+      competition_id,
+      game_id,
+    })
+
+    if (!success) {
+      return reply.status(400).send('Failed to update scores')
+    }
 
     return reply.status(200).send()
   } catch (err) {

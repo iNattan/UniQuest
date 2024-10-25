@@ -33,7 +33,7 @@ export class PrismaCompetitionsRepository implements CompetitionsRepository {
             game_id: true,
             game: {
               select: {
-                name: true,                 
+                name: true,
                 category: true,
               },
             },
@@ -41,7 +41,7 @@ export class PrismaCompetitionsRepository implements CompetitionsRepository {
         },
       },
     })
-  
+
     return competition
   }
 
@@ -65,7 +65,7 @@ export class PrismaCompetitionsRepository implements CompetitionsRepository {
       },
       select: {
         id: true,
-        image: true, 
+        image: true,
       },
       orderBy: {
         created_at: 'desc',
@@ -115,7 +115,6 @@ export class PrismaCompetitionsRepository implements CompetitionsRepository {
 
     return competitions
   }
-  
 
   async create(data: Prisma.CompetitionCreateInput) {
     const competition = await prisma.competition.create({

@@ -1,18 +1,35 @@
 import { prisma } from '@/lib/prisma'
 import { AllAgainstAllMatchesRepository } from '../all-against-all-matches-repository'
-import { AllAgainstAllMatch, Prisma } from '@prisma/client'
+import { Prisma } from '@prisma/client'
 
 export class PrismaAllAgainstAllMatchesRepository
   implements AllAgainstAllMatchesRepository
 {
-  async findByCompetitionAndGame(
-    competitionId: number,
-    gameId: number,
-  ) {
+  async findByCompetitionAndGame(competitionId: number, gameId: number) {
     return await prisma.allAgainstAllMatch.findMany({
       where: {
         competition_id: competitionId,
         game_id: gameId,
+      },
+      select: {
+        id: true,
+        competition_id: true,
+        game_id: true,
+        round: true,
+        AllAgainstAllPlacement: {
+          select: {
+            id: true,
+            match_id: true,
+            team_id: true,
+            team: {
+              select: {
+                name: true,
+              },
+            },
+            position: true,
+            score: true,
+          },
+        },
       },
     })
   }
