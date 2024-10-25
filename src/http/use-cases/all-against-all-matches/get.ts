@@ -21,6 +21,7 @@ interface AllAgainstAllPlacement {
 }
 
 interface AllAgainstAllMatchWithPlacements extends AllAgainstAllMatch {
+  game_name?: string
   AllAgainstAllPlacement: AllAgainstAllPlacement[]
 }
 
@@ -49,7 +50,11 @@ export class GetAllAgainstAllMatchUseCase {
           (match as AllAgainstAllMatchWithPlacements).AllAgainstAllPlacement ||
           []
         return {
-          ...(match as AllAgainstAllMatchWithPlacements),
+          id: match.id,
+          competition_id: match.competition_id,
+          game_id: match.game_id,
+          game_name: match.game?.name,
+          round: match.round,
           AllAgainstAllPlacement: placements.map(
             (placement: AllAgainstAllPlacement) => ({
               id: placement.id,

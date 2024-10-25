@@ -16,6 +16,11 @@ export class PrismaAllAgainstAllMatchesRepository
         competition_id: true,
         game_id: true,
         round: true,
+        game: {
+          select: {
+            name: true,
+          },
+        },
         AllAgainstAllPlacement: {
           select: {
             id: true,
