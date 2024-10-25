@@ -1,26 +1,26 @@
-import { TeamsRepository } from '@/repositories/teams-repository';
-import { Team } from '@prisma/client';
+import { TeamsRepository } from '@/repositories/teams-repository'
+import { Team } from '@prisma/client'
 
-type TeamWithoutPassword = Omit<Team, 'password_hash'>;
+type TeamWithoutPassword = Omit<Team, 'password_hash'>
 
 interface GetTeamUseCaseRequest {
-  competitionId: number;
-  filter?: string;
+  competitionId: number
+  filter?: string
 }
 
 interface TeamWithMembers extends TeamWithoutPassword {
-  members_count: number;
-  max_participant: number;
+  members_count: number
+  max_participant: number
 }
 
 interface GetTeamUseCaseResponse {
   _count?: {
-    TeamMember: number;
-  };
+    TeamMember: number
+  }
   competition?: {
-    max_participant: number;
-  };
-  teams: TeamWithMembers[];
+    max_participant: number
+  }
+  teams: TeamWithMembers[]
 }
 
 export class GetTeamUseCase {
@@ -30,7 +30,7 @@ export class GetTeamUseCase {
     competitionId,
     filter,
   }: GetTeamUseCaseRequest): Promise<GetTeamUseCaseResponse> {
-    const teams = await this.teamsRepository.findMany(competitionId, filter);
+    const teams = await this.teamsRepository.findMany(competitionId, filter)
 
     const teamsWithMembers = teams.map((team) => ({
       id: team.id,
@@ -44,10 +44,10 @@ export class GetTeamUseCase {
       system_date_deleted: team.system_date_deleted,
       members_count: team._count?.TeamMember || 0, 
       max_participant: team.competition?.max_participant || 0, 
-    }));
+    }))
 
     return {
       teams: teamsWithMembers,
-    };
+    }
   }
 }

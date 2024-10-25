@@ -37,7 +37,6 @@ export class GetCompetitionByIdUseCase {
     id,
   }: GetCompetitionByIdUseCaseRequest): Promise<GetCompetitionByIdUseCaseResponse> {
     const competition = await this.competitionsRepository.findById(id)
-    console.log(competition)
 
     if (!competition) {
       return { competition: null }

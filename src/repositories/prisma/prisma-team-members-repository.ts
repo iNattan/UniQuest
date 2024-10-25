@@ -23,9 +23,9 @@ export class PrismaTeamMembersRepository implements TeamMembersRepository {
       select: {
         team_id: true,
       },
-    });
+    })
 
-    return teamMember ? teamMember.team_id : null;
+    return teamMember ? teamMember.team_id : null
   }
 
   async findManyByTeamId(teamId: number) {
@@ -45,9 +45,9 @@ export class PrismaTeamMembersRepository implements TeamMembersRepository {
               },
           },
       },
-  });
+  })
 
-  return teamMembers;
+  return teamMembers
   }
     
   async create(data: Prisma.TeamMemberCreateInput) {

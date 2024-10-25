@@ -36,7 +36,7 @@ export class GetTeamMembersByTeamIdUseCase {
       team_id: member.team_id,
       user_name: member.user.name, 
       team_name: member.team.name, 
-    }));
+    }))
 
     return {
       teamMembers: teamMembersWithDetails,

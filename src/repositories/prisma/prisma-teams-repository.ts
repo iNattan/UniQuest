@@ -49,9 +49,20 @@ export class PrismaTeamsRepository implements TeamsRepository {
           },
         },
       },
-    });
+    })
 
-    return teams;
+    return teams
+  }
+
+  async findManyRegisteredByCompetitionId(competitionId: number) {
+    const teams = await prisma.team.findMany({
+      where: {
+        competition_id: competitionId,
+        status: 1, 
+      },
+    })
+
+    return teams
   }
 
   async findByCompetitionId(competitionId: number) {
@@ -91,5 +102,5 @@ export class PrismaTeamsRepository implements TeamsRepository {
     } catch (err) {
       return false
     }
-  }
+  }  
 }

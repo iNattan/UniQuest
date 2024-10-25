@@ -46,7 +46,7 @@ export class GetScoresUseCase {
 
     for (const team of teams) {
       let totalScore = 0
-      const teamScores: { game_id: number; score: number }[] = []
+      const teamScores: { game_id: number, score: number }[] = []
 
       for (const game of games) {
         const score =

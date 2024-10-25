@@ -5,10 +5,10 @@ interface TeamMemberWithNames {
   team_id: number
   user: {
     name: string
-  };
+  }
   team: {
     name: string
-  };
+  }
 }
 
 export interface TeamMembersRepository {

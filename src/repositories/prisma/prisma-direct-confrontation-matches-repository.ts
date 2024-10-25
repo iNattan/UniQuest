@@ -11,6 +11,31 @@ export class PrismaDirectConfrontationMatchesRepository
         competition_id: competitionId,
         game_id: gameId,
       },
+      select: {
+        id: true,
+        competition_id: true,
+        game_id: true,
+        round: true,
+        match: true,
+        team1_id: true,        
+        team1: {
+          select: {
+            name: true,
+          },
+        },
+        team2_id: true,        
+        team2: {
+          select: {
+            name: true,
+          },
+        },
+        winner_team_id: true,
+        winner_team: {
+          select: {
+            name: true,
+          },
+        },
+      },
     })
   }
 

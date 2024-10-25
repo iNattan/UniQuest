@@ -47,7 +47,7 @@ export class GetCompetitionUseCase {
         game_id: compGame.game_id,
         game_name: compGame.game?.name,
       })),
-    }));
+    }))
 
     return {
       competitions: competitionsWithGameName,

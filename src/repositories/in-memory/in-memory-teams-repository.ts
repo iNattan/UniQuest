@@ -34,6 +34,12 @@ export class InMemoryTeamsRepository implements TeamsRepository {
     return filteredTeams
   }
 
+  async findManyRegisteredByCompetitionId(competitionId: number) {
+    return this.items.filter(
+      (team) => team.competition_id === competitionId && team.status === 1
+    )
+  }
+
   async findByCompetitionId(competitionId: number) {
     return this.items.filter(
       (team) => team.competition_id === competitionId && (team.system_deleted === null || team.system_deleted === undefined)
@@ -109,5 +115,5 @@ export class InMemoryTeamsRepository implements TeamsRepository {
     }
 
     return true
-  }
+  }  
 }

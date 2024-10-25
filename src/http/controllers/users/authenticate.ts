@@ -45,8 +45,6 @@ export async function authenticate(
       },
     )
 
-    console.log('Role recebido no token:', user.role);
-
     return reply
       .setCookie('refreshToken', refreshToken, {
         path: '/',
