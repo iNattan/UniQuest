@@ -17,7 +17,7 @@ interface DirectConfrontationMatchWithTeamNames {
   game_id: number
   round: number
   match: number
-  team1_id: number | null 
+  team1_id: number | null
   team2_id: number | null
   winner_team_id: number | null
   team1_name: string | null
@@ -49,7 +49,7 @@ export class GetDirectConfrontationMatchUseCase {
         game_id,
       )
 
-    const matchesWithTeamNames = directConfrontationMatches.map(match => ({
+    const matchesWithTeamNames = directConfrontationMatches.map((match) => ({
       id: match.id,
       competition_id: match.competition_id,
       game_id: match.game_id,
