@@ -3,6 +3,7 @@ import { create } from './create'
 import { get } from './get'
 import { update } from './update'
 import { delete_ } from './delete_'
+import { getById } from './get-by-id'
 
 export async function gamesRoutes(app: FastifyInstance) {
   app.post('/games', create)
@@ -12,4 +13,5 @@ export async function gamesRoutes(app: FastifyInstance) {
   app.delete('/games/:id', delete_)
 
   app.get('/games', get)
+  app.get('/games/:id', getById)
 }
