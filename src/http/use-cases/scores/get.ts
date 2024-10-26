@@ -59,7 +59,7 @@ export class GetScoresUseCase {
         const score =
           await this.scoresRepository.findByCompetitionIdAndGameIdAndTeamId(
             competition_id,
-            game.id,
+            game.game_id,
             team.id,
           )
 
@@ -69,7 +69,7 @@ export class GetScoresUseCase {
         const gameName = gameDetails ? gameDetails.name : ''
 
         teamScores.push({
-          game_id: game.id,
+          game_id: game.game_id,
           game_name: gameName,
           score: gameScore,
         })
