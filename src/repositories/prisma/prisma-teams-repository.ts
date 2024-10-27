@@ -50,6 +50,9 @@ export class PrismaTeamsRepository implements TeamsRepository {
         },
         message: true,
       },
+      orderBy: {
+        name: 'asc',
+      },
     })
 
     return teams
@@ -61,6 +64,9 @@ export class PrismaTeamsRepository implements TeamsRepository {
         competition_id: competitionId,
         status: 1,
       },
+      orderBy: {
+        name: 'asc',
+      },
     })
 
     return teams
@@ -71,6 +77,9 @@ export class PrismaTeamsRepository implements TeamsRepository {
       where: {
         competition_id: competitionId,
         status: { not: null },
+      },
+      orderBy: {
+        name: 'asc',
       },
     })
 

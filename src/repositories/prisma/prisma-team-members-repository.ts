@@ -48,6 +48,9 @@ export class PrismaTeamMembersRepository implements TeamMembersRepository {
           },
         },
       },
+      orderBy: {
+        id: 'asc',
+      },
     })
 
     return teamMembers

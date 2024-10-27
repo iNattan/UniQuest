@@ -111,6 +111,9 @@ export class PrismaCompetitionsRepository implements CompetitionsRepository {
           },
         },
       },
+      orderBy: {
+        created_at: 'desc',
+      },
     })
 
     return competitions

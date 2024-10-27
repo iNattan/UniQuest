@@ -19,6 +19,9 @@ export class PrismaGamesRepository implements GamesRepository {
         system_deleted: null,
         ...(filter ? { name: { contains: filter, mode: 'insensitive' } } : {}),
       },
+      orderBy: {
+        name: 'asc',
+      },
     })
 
     return games
