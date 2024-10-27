@@ -78,6 +78,28 @@ export class PrismaTeamsRepository implements TeamsRepository {
         competition_id: competitionId,
         status: { not: null },
       },
+      select: {
+        id: true,
+        competition_id: true,
+        name: true,
+        status: true,
+        is_private: true,
+        leader_user_id: true,
+        created_at: true,
+        system_deleted: true,
+        system_date_deleted: true,
+        _count: {
+          select: {
+            TeamMember: true,
+          },
+        },
+        competition: {
+          select: {
+            max_participant: true,
+          },
+        },
+        message: true,
+      },
       orderBy: {
         name: 'asc',
       },

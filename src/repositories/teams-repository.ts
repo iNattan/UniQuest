@@ -7,8 +7,12 @@ export interface TeamsRepository {
     competitionId: number,
     filter?: string,
   ): Promise<TeamWithoutPassword[]>
-  findManyRegisteredByCompetitionId(competitionId: number): Promise<Team[]>
-  findManyForApprovalByCompetitionId(competitionId: number): Promise<Team[]>
+  findManyRegisteredByCompetitionId(
+    competitionId: number,
+  ): Promise<TeamWithoutPassword[]>
+  findManyForApprovalByCompetitionId(
+    competitionId: number,
+  ): Promise<TeamWithoutPassword[]>
   findByCompetitionId(competitionId: number): Promise<Team[]>
   create(data: Prisma.TeamCreateInput): Promise<Team>
   update(id: number, data: Prisma.TeamUpdateInput): Promise<Team>
