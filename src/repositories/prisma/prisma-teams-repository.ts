@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma'
-import { Prisma, Team } from '@prisma/client'
+import { Prisma } from '@prisma/client'
 import { TeamsRepository } from '../teams-repository'
 
 export class PrismaTeamsRepository implements TeamsRepository {
@@ -40,12 +40,12 @@ export class PrismaTeamsRepository implements TeamsRepository {
         system_date_deleted: true,
         _count: {
           select: {
-            TeamMember: true, 
+            TeamMember: true,
           },
         },
         competition: {
           select: {
-            max_participant: true, 
+            max_participant: true,
           },
         },
       },
@@ -58,7 +58,18 @@ export class PrismaTeamsRepository implements TeamsRepository {
     const teams = await prisma.team.findMany({
       where: {
         competition_id: competitionId,
-        status: 1, 
+        status: 1,
+      },
+    })
+
+    return teams
+  }
+
+  async findManyForApprovalByCompetitionId(competitionId: number) {
+    const teams = await prisma.team.findMany({
+      where: {
+        competition_id: competitionId,
+        status: { not: null },
       },
     })
 
@@ -102,5 +113,5 @@ export class PrismaTeamsRepository implements TeamsRepository {
     } catch (err) {
       return false
     }
-  }  
+  }
 }

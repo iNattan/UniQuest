@@ -26,7 +26,7 @@ describe('Get Team Use Case', () => {
       leader: { connect: { id: 2 } },
     })
 
-    const { teams } = await sut.execute({})
+    const { teams } = await sut.execute({ competitionId: 1 })
 
     expect(teams).toHaveLength(2)
     expect(teams).toEqual([
@@ -57,7 +57,7 @@ describe('Get Team Use Case', () => {
       leader: { connect: { id: 3 } },
     })
 
-    const { teams } = await sut.execute({ filter: 'Team' })
+    const { teams } = await sut.execute({ competitionId: 1, filter: 'Team' })
 
     expect(teams).toHaveLength(3)
     expect(teams).toEqual([
@@ -75,7 +75,10 @@ describe('Get Team Use Case', () => {
       leader: { connect: { id: 1 } },
     })
 
-    const { teams } = await sut.execute({ filter: 'NonExistingTeam' })
+    const { teams } = await sut.execute({
+      competitionId: 1,
+      filter: 'NonExistingTeam',
+    })
 
     expect(teams).toHaveLength(0)
   })

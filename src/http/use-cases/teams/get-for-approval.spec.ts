@@ -1,17 +1,17 @@
 import { expect, describe, it, beforeEach } from 'vitest'
 import { InMemoryTeamsRepository } from '@/repositories/in-memory/in-memory-teams-repository'
-import { GetTeamsRegisteredUseCase } from './get-registered'
+import { GetTeamsForApprovalUseCase } from './get-for-approval'
 
 let teamsRepository: InMemoryTeamsRepository
-let sut: GetTeamsRegisteredUseCase
+let sut: GetTeamsForApprovalUseCase
 
-describe('Get Teams Registered Use Case', () => {
+describe('Get Teams For Approval Use Case', () => {
   beforeEach(() => {
     teamsRepository = new InMemoryTeamsRepository()
-    sut = new GetTeamsRegisteredUseCase(teamsRepository)
+    sut = new GetTeamsForApprovalUseCase(teamsRepository)
   })
 
-  it('should be able to get all registered teams for a competition', async () => {
+  it('should be able to get all teams for approval for a competition', async () => {
     await teamsRepository.create({
       name: 'Team A',
       is_private: 0,
@@ -38,16 +38,19 @@ describe('Get Teams Registered Use Case', () => {
 
     const { teams } = await sut.execute({ competitionId: 1 })
 
-    expect(teams).toHaveLength(1)
-    expect(teams).toEqual([expect.objectContaining({ name: 'Team B' })])
+    expect(teams).toEqual([
+      expect.objectContaining({ name: 'Team A' }),
+      expect.objectContaining({ name: 'Team B' }),
+      expect.objectContaining({ name: 'Team C' }),
+    ])
   })
 
-  it('should return an empty array if no teams are registered for the competition', async () => {
+  it('should return an empty array if no teams are for approval in the competition', async () => {
     await teamsRepository.create({
       name: 'Team A',
       is_private: 0,
       competition: { connect: { id: 1 } },
-      status: -1,
+      status: null,
       leader: { connect: { id: 1 } },
     })
 

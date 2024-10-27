@@ -1,22 +1,22 @@
 import { TeamsRepository } from '@/repositories/teams-repository'
 import { Team } from '@prisma/client'
 
-interface GetTeamsRegisteredUseCaseRequest {
+interface GetTeamsForApprovalUseCaseRequest {
   competitionId: number
 }
 
-interface GetTeamsRegisteredUseCaseResponse {
+interface GetTeamsForApprovalUseCaseResponse {
   teams: Team[]
 }
 
-export class GetTeamsRegisteredUseCase {
+export class GetTeamsForApprovalUseCase {
   constructor(private teamsRepository: TeamsRepository) {}
 
   async execute({
     competitionId,
-  }: GetTeamsRegisteredUseCaseRequest): Promise<GetTeamsRegisteredUseCaseResponse> {
+  }: GetTeamsForApprovalUseCaseRequest): Promise<GetTeamsForApprovalUseCaseResponse> {
     const teams =
-      await this.teamsRepository.findManyRegisteredByCompetitionId(
+      await this.teamsRepository.findManyForApprovalByCompetitionId(
         competitionId,
       )
 

@@ -16,9 +16,15 @@ export class InMemoryTeamsRepository implements TeamsRepository {
 
   async findMany(competitionId: number, filter?: string) {
     const filteredTeams = this.items.filter((team) => {
-      const isActive = team.system_deleted === null || team.system_deleted === undefined
+      const isActive =
+        team.system_deleted === null || team.system_deleted === undefined
 
       if (!isActive) {
+        return false
+      }
+
+      const matchesCompetitionId = team.competition_id === competitionId
+      if (!matchesCompetitionId) {
         return false
       }
 
@@ -36,13 +42,21 @@ export class InMemoryTeamsRepository implements TeamsRepository {
 
   async findManyRegisteredByCompetitionId(competitionId: number) {
     return this.items.filter(
-      (team) => team.competition_id === competitionId && team.status === 1
+      (team) => team.competition_id === competitionId && team.status === 1,
+    )
+  }
+
+  async findManyForApprovalByCompetitionId(competitionId: number) {
+    return this.items.filter(
+      (team) => team.competition_id === competitionId && team.status !== null,
     )
   }
 
   async findByCompetitionId(competitionId: number) {
     return this.items.filter(
-      (team) => team.competition_id === competitionId && (team.system_deleted === null || team.system_deleted === undefined)
+      (team) =>
+        team.competition_id === competitionId &&
+        (team.system_deleted === null || team.system_deleted === undefined),
     )
   }
 
@@ -75,23 +89,31 @@ export class InMemoryTeamsRepository implements TeamsRepository {
     const existingTeam = this.items[teamIndex]
 
     const updatedStatus =
-    typeof data.status === 'object' && data.status !== null
-      ? (data.status as Prisma.NullableIntFieldUpdateOperationsInput).set ?? existingTeam.status
-      : data.status ?? existingTeam.status
+      typeof data.status === 'object' && data.status !== null
+        ? ((data.status as Prisma.NullableIntFieldUpdateOperationsInput).set ??
+          existingTeam.status)
+        : (data.status ?? existingTeam.status)
 
     const updatedTeam: Team = {
       ...existingTeam,
       name: typeof data.name === 'string' ? data.name : existingTeam.name,
       status: updatedStatus,
-      is_private: typeof data.is_private === 'number' ? data.is_private : existingTeam.is_private,
+      is_private:
+        typeof data.is_private === 'number'
+          ? data.is_private
+          : existingTeam.is_private,
       password_hash:
-        typeof data.password_hash === 'string' ? data.password_hash : existingTeam.password_hash,
+        typeof data.password_hash === 'string'
+          ? data.password_hash
+          : existingTeam.password_hash,
       competition_id:
         data.competition?.connect?.id !== undefined
           ? data.competition.connect.id
           : existingTeam.competition_id,
       leader_user_id:
-        data.leader?.connect?.id !== undefined ? data.leader.connect.id : existingTeam.leader_user_id,
+        data.leader?.connect?.id !== undefined
+          ? data.leader.connect.id
+          : existingTeam.leader_user_id,
     }
 
     this.items[teamIndex] = updatedTeam
@@ -115,5 +137,5 @@ export class InMemoryTeamsRepository implements TeamsRepository {
     }
 
     return true
-  }  
+  }
 }

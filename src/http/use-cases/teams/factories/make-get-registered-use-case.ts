@@ -3,7 +3,9 @@ import { GetTeamsRegisteredUseCase } from '../get-registered'
 
 export function makeGetTeamsRegisteredUseCase() {
   const teamsRepository = new PrismaTeamsRepository()
-  const getTeamsRegisteredUseCase = new GetTeamsRegisteredUseCase(teamsRepository)
+  const getTeamsRegisteredUseCase = new GetTeamsRegisteredUseCase(
+    teamsRepository,
+  )
 
   return getTeamsRegisteredUseCase
 }

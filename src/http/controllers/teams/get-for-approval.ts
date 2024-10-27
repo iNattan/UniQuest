@@ -1,9 +1,9 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { z } from 'zod'
 import { NotFoundError } from '@/http/use-cases/errors/not-found-error'
-import { makeGetTeamsRegisteredUseCase } from '@/http/use-cases/teams/factories/make-get-registered-use-case'
+import { makeGetTeamsForApprovalUseCase } from '@/http/use-cases/teams/factories/make-get-for-approval-use-case'
 
-export async function getRegistered(
+export async function getForApproval(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
@@ -14,9 +14,9 @@ export async function getRegistered(
   const { competitionId } = paramsSchema.parse(request.params)
 
   try {
-    const getTeamsRegisteredUseCase = makeGetTeamsRegisteredUseCase()
+    const getTeamsForApprovalUseCase = makeGetTeamsForApprovalUseCase()
 
-    const teams = await getTeamsRegisteredUseCase.execute({
+    const teams = await getTeamsForApprovalUseCase.execute({
       competitionId,
     })
 
