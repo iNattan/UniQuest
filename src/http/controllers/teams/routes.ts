@@ -2,15 +2,15 @@ import { FastifyInstance } from 'fastify'
 import { create } from './create'
 import { get } from './get'
 import { getRegistered } from './get-registered'
-import { update } from './update'
 import { delete_ } from './delete_'
 import { verifyJWT } from '@/http/middlewares/verify-jwt'
 import { getForApproval } from './get-for-approval'
+import { updateStatus } from './update-status'
 
 export async function teamsRoutes(app: FastifyInstance) {
   app.post('/teams', { onRequest: [verifyJWT] }, create)
 
-  app.put('/teams/:id', update)
+  app.patch('/teams/:id/status', updateStatus)
 
   app.delete('/teams/:id', delete_)
 

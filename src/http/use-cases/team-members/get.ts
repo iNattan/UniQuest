@@ -17,14 +17,13 @@ interface GetTeamMembersByTeamIdUseCaseResponse {
 }
 
 export class GetTeamMembersByTeamIdUseCase {
-  constructor(
-    private teamMembersRepository: TeamMembersRepository,
-  ) {}
+  constructor(private teamMembersRepository: TeamMembersRepository) {}
 
   async execute({
     team_id,
   }: GetTeamMembersByTeamIdUseCaseRequest): Promise<GetTeamMembersByTeamIdUseCaseResponse> {
-    const teamMembers = await this.teamMembersRepository.findManyByTeamId(team_id)
+    const teamMembers =
+      await this.teamMembersRepository.findManyByTeamId(team_id)
 
     if (!teamMembers) {
       return { teamMembers: [] }
@@ -34,8 +33,8 @@ export class GetTeamMembersByTeamIdUseCase {
       id: member.id,
       user_id: member.user_id,
       team_id: member.team_id,
-      user_name: member.user.name, 
-      team_name: member.team.name, 
+      user_name: member.user.name,
+      team_name: member.team.name,
     }))
 
     return {

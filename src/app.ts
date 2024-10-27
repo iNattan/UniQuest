@@ -14,13 +14,16 @@ import { scoresRoutes } from './http/controllers/scores/routes'
 import cors from '@fastify/cors'
 
 export const app = fastify({
-  bodyLimit: 10485760 
+  bodyLimit: 10485760,
 })
 
 app.register(cors, {
-  origin: ['http://localhost:3000', 'https://uniquest-production.up.railway.app'],
+  origin: [
+    'http://localhost:3000',
+    'https://uniquest-production.up.railway.app',
+  ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-  credentials: true, 
+  credentials: true,
 })
 
 app.register(fastifyJwt, {

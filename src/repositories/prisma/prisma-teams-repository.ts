@@ -17,7 +17,7 @@ export class PrismaTeamsRepository implements TeamsRepository {
     const teams = await prisma.team.findMany({
       where: {
         system_deleted: null,
-        status: null,
+        status: { not: -1 },
         competition_id: competitionId,
         ...(filter
           ? {
@@ -48,6 +48,7 @@ export class PrismaTeamsRepository implements TeamsRepository {
             max_participant: true,
           },
         },
+        message: true,
       },
     })
 

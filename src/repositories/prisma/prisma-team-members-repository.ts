@@ -12,7 +12,10 @@ export class PrismaTeamMembersRepository implements TeamMembersRepository {
     })
   }
 
-  async findByUserAndCompetitionId(userId: number, competitionId: number): Promise<number | null> {
+  async findByUserAndCompetitionId(
+    userId: number,
+    competitionId: number,
+  ): Promise<number | null> {
     const teamMember = await prisma.teamMember.findFirst({
       where: {
         user_id: userId,
@@ -31,25 +34,34 @@ export class PrismaTeamMembersRepository implements TeamMembersRepository {
   async findManyByTeamId(teamId: number) {
     const teamMembers = await prisma.teamMember.findMany({
       where: {
-          team_id: teamId,
+        team_id: teamId,
       },
       include: {
-          user: {
-              select: {
-                  name: true, 
-              },
+        user: {
+          select: {
+            name: true,
           },
-          team: {
-              select: {
-                  name: true, 
-              },
+        },
+        team: {
+          select: {
+            name: true,
           },
+        },
       },
-  })
+    })
 
-  return teamMembers
+    return teamMembers
   }
-    
+
+  async countByTeamId(teamId: number) {
+    const count = await prisma.teamMember.count({
+      where: {
+        team_id: teamId,
+      },
+    })
+    return count
+  }
+
   async create(data: Prisma.TeamMemberCreateInput) {
     const teamMember = await prisma.teamMember.create({
       data,

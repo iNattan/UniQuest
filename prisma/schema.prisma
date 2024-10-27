@@ -96,6 +96,7 @@ model Team {
 
   name          String
   status        Int? // -1 reprovado / 0 - pendente / 1 - aprovado / null - criado
+  message       String? // mensagem de rejeição
   is_private    Int // 0 - publico / 1 - privado
   password_hash String?
 

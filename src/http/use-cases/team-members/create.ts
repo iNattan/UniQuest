@@ -4,6 +4,7 @@ import { TeamMember } from '@prisma/client'
 import { compare } from 'bcryptjs'
 import { InvalidCredentialsError } from '../errors/invalid-credentials-error'
 import { NotFoundError } from '../errors/not-found-error'
+import { CompetitionsRepository } from '@/repositories/competitions-repository'
 
 interface CreateTeamMemberUseCaseRequest {
   user_id: number
@@ -19,6 +20,7 @@ export class CreateTeamMemberUseCase {
   constructor(
     private teamMemberRepository: TeamMembersRepository,
     private teamsRepository: TeamsRepository,
+    private competitionsRepository: CompetitionsRepository,
   ) {}
 
   async execute({
@@ -30,6 +32,14 @@ export class CreateTeamMemberUseCase {
 
     if (!team) {
       throw new NotFoundError('Team')
+    }
+
+    const competition = await this.competitionsRepository.findById(
+      team.competition_id,
+    )
+
+    if (!competition) {
+      throw new NotFoundError('Competition')
     }
 
     if (team.is_private === 1) {
@@ -51,6 +61,15 @@ export class CreateTeamMemberUseCase {
         connect: { id: team_id },
       },
     })
+
+    const teamMembersCount =
+      await this.teamMemberRepository.countByTeamId(team_id)
+
+    const minimumMembers = competition.min_participant
+
+    if (teamMembersCount >= minimumMembers && team.status === null) {
+      await this.teamsRepository.update(team_id, { status: 0 })
+    }
 
     return {
       teamMember,

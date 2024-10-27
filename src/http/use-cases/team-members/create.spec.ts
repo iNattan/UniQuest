@@ -5,16 +5,35 @@ import { CreateTeamMemberUseCase } from './create'
 import { hash } from 'bcryptjs'
 import { NotFoundError } from '../errors/not-found-error'
 import { InvalidCredentialsError } from '../errors/invalid-credentials-error'
+import { InMemoryCompetitionsRepository } from '@/repositories/in-memory/in-memory-competitions-repository'
 
 let teamMembersRepository: InMemoryTeamMembersRepository
 let teamsRepository: InMemoryTeamsRepository
+let competitionsRepository: InMemoryCompetitionsRepository
 let sut: CreateTeamMemberUseCase
 
 describe('Create Team Member Use Case', () => {
   beforeEach(() => {
     teamMembersRepository = new InMemoryTeamMembersRepository()
     teamsRepository = new InMemoryTeamsRepository()
-    sut = new CreateTeamMemberUseCase(teamMembersRepository, teamsRepository)
+    competitionsRepository = new InMemoryCompetitionsRepository()
+
+    competitionsRepository.create({
+      title: 'Competition 1',
+      date_event: new Date(),
+      start_registration: new Date(),
+      end_registration: new Date(),
+      min_participant: 8,
+      max_participant: 16,
+      local: 'Local',
+      description: 'Test',
+    })
+
+    sut = new CreateTeamMemberUseCase(
+      teamMembersRepository,
+      teamsRepository,
+      competitionsRepository,
+    )
   })
 
   it('should be able to add a member to a public team without password', async () => {
@@ -67,7 +86,7 @@ describe('Create Team Member Use Case', () => {
       sut.execute({
         user_id: 2,
         team_id: createdTeam.id,
-      })
+      }),
     ).rejects.toBeInstanceOf(InvalidCredentialsError)
   })
 
@@ -75,8 +94,8 @@ describe('Create Team Member Use Case', () => {
     await expect(() =>
       sut.execute({
         user_id: 1,
-        team_id: 999, 
-      })
+        team_id: 999,
+      }),
     ).rejects.toBeInstanceOf(NotFoundError)
   })
 })

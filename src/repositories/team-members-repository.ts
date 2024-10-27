@@ -21,6 +21,7 @@ export interface TeamMembersRepository {
     competitionId: number,
   ): Promise<number | null>
   findManyByTeamId(teamId: number): Promise<TeamMemberWithNames[]>
+  countByTeamId(teamId: number): Promise<number>
   create(data: Prisma.TeamMemberCreateInput): Promise<TeamMember>
   delete(id: number): Promise<boolean>
 }

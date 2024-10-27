@@ -64,6 +64,7 @@ export class InMemoryTeamsRepository implements TeamsRepository {
     const team: Team = {
       id: this.items.length + 1,
       name: data.name,
+      message: data.message ?? null,
       status: data.status ?? null,
       is_private: data.is_private,
       password_hash: data.password_hash ?? null,
