@@ -17,8 +17,8 @@ export class PrismaTeamsRepository implements TeamsRepository {
     const teams = await prisma.team.findMany({
       where: {
         system_deleted: null,
-        status: { not: -1 },
         competition_id: competitionId,
+        OR: [{ status: { not: -1 } }, { status: null }],
         ...(filter
           ? {
               name: {
