@@ -20,7 +20,7 @@ describe('Create Game Use Case', () => {
       second_score: 10,
       third_score: 5,
       general_score: 1,
-      category: 1, 
+      category: 1,
     })
 
     expect(game.id).toEqual(expect.any(Number))

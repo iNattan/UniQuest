@@ -29,7 +29,9 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
       return reply.status(404).send({ message: error.message })
     }
     if (error instanceof InvalidCredentialsError) {
-      return reply.status(403).send({ message: 'Invalid password for this Team' })
+      return reply
+        .status(403)
+        .send({ message: 'Invalid password for this Team' })
     }
   }
 }

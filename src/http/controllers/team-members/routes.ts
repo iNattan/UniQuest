@@ -11,5 +11,9 @@ export async function teamMembersRoutes(app: FastifyInstance) {
   app.delete('/teamMembers/:team_id', { onRequest: [verifyJWT] }, delete_)
 
   app.get('/teamMembers/:team_id', { onRequest: [verifyJWT] }, get)
-  app.get('/teamMembers/me/:competition_id', { onRequest: [verifyJWT] }, getUserInCompetition)
+  app.get(
+    '/teamMembers/me/:competition_id',
+    { onRequest: [verifyJWT] },
+    getUserInCompetition,
+  )
 }

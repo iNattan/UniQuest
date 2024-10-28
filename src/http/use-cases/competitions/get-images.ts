@@ -14,7 +14,7 @@ export class GetCompetitionImagesUseCase {
     const competitions = await this.competitionsRepository.findManyImages()
 
     return {
-      competitions
+      competitions,
     }
   }
 }

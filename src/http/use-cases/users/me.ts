@@ -12,7 +12,9 @@ interface MeUserUseCaseResponse {
 export class MeUserUseCase {
   constructor(private userRepository: UsersRepository) {}
 
-  async execute({ email }: MeUserUseCaseRequest): Promise<MeUserUseCaseResponse> {
+  async execute({
+    email,
+  }: MeUserUseCaseRequest): Promise<MeUserUseCaseResponse> {
     const user = await this.userRepository.findByEmail(email)
 
     return {

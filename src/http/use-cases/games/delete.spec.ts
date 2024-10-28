@@ -27,7 +27,7 @@ describe('Delete Game Use Case', () => {
     const wasDeleted = await sut.execute(game.id)
 
     expect(wasDeleted).toBe(true)
-    expect(gamesRepository.items.length).toBe(1) 
+    expect(gamesRepository.items.length).toBe(1)
     expect(gamesRepository.items[0].system_deleted).toBe(game.id)
   })
 

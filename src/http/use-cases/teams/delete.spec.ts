@@ -23,8 +23,8 @@ describe('Delete Team Use Case', () => {
     const wasDeleted = await sut.execute(createdTeam.id)
 
     expect(wasDeleted).toBe(true)
-    expect(teamsRepository.items.length).toBe(1) 
-    expect(teamsRepository.items[0].system_deleted).toBe(createdTeam.id) 
+    expect(teamsRepository.items.length).toBe(1)
+    expect(teamsRepository.items[0].system_deleted).toBe(createdTeam.id)
   })
 
   it('should not be able to delete a non-existing team', async () => {

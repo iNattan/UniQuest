@@ -12,7 +12,10 @@ describe('Update Competition Use Case', () => {
   beforeEach(() => {
     competitionsRepository = new InMemoryCompetitionsRepository()
     competitionGamesRepository = new InMemoryCompetitionGamesRepository()
-    sut = new UpdateCompetitionUseCase(competitionsRepository, competitionGamesRepository)
+    sut = new UpdateCompetitionUseCase(
+      competitionsRepository,
+      competitionGamesRepository,
+    )
   })
 
   it('should be able to update competition details', async () => {

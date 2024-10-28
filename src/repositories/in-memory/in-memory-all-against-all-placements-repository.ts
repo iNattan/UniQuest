@@ -1,7 +1,9 @@
 import { AllAgainstAllPlacement, Prisma } from '@prisma/client'
 import { AllAgainstAllPlacementsRepository } from '../all-against-all-placements-repository'
 
-export class InMemoryAllAgainstAllPlacementsRepository implements AllAgainstAllPlacementsRepository {
+export class InMemoryAllAgainstAllPlacementsRepository
+  implements AllAgainstAllPlacementsRepository
+{
   public items: AllAgainstAllPlacement[] = []
 
   async findByMatchId(matchId: number) {
@@ -43,12 +45,16 @@ export class InMemoryAllAgainstAllPlacementsRepository implements AllAgainstAllP
     const existingPlacement = this.items[placementIndex]
     const updatedPlacement: AllAgainstAllPlacement = {
       ...existingPlacement,
-      score: typeof data.score === 'number' ? data.score : existingPlacement.score,
-      position: typeof data.position === 'number' ? data.position : existingPlacement.position,
+      score:
+        typeof data.score === 'number' ? data.score : existingPlacement.score,
+      position:
+        typeof data.position === 'number'
+          ? data.position
+          : existingPlacement.position,
     }
 
     this.items[placementIndex] = updatedPlacement
-    return updatedPlacement 
+    return updatedPlacement
   }
 
   async deleteMany(matchId: number) {

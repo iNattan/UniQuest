@@ -1,15 +1,4 @@
 import { DirectConfrontationMatchesRepository } from '@/repositories/direct-confrontation-matches-repository'
-import { DirectConfrontationMatch } from '@prisma/client'
-
-interface Team {
-  name: string
-}
-
-interface DirectConfrontationMatchWithTeams extends DirectConfrontationMatch {
-  team1?: Team
-  team2?: Team
-  winner_team?: Team
-}
 
 interface DirectConfrontationMatchWithTeamNames {
   id: number

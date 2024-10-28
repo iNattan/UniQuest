@@ -45,7 +45,7 @@ export async function update(request: FastifyRequest, reply: FastifyReply) {
     description,
     CompetitionGames,
     image,
-    image_name,    
+    image_name,
     regulation,
     regulation_name,
   } = competitionBodySchema.parse(request.body)

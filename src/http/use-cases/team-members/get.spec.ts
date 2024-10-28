@@ -18,7 +18,7 @@ describe('Get Team Members By Team Id Use Case', () => {
       },
       team: {
         connect: { id: 1 },
-      }
+      },
     })
 
     await teamMembersRepository.create({
@@ -27,7 +27,7 @@ describe('Get Team Members By Team Id Use Case', () => {
       },
       team: {
         connect: { id: 1 },
-      }
+      },
     })
 
     const { teamMembers } = await sut.execute({ team_id: 1 })

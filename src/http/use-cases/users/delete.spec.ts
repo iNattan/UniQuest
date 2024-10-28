@@ -23,7 +23,7 @@ describe('Delete User Use Case', () => {
     const wasDeleted = await sut.execute(createdUser.id)
 
     expect(wasDeleted).toBe(true)
-    expect(userRepository.items.length).toBe(1) 
+    expect(userRepository.items.length).toBe(1)
     expect(userRepository.items[0].system_deleted).toBe(createdUser.id)
   })
 

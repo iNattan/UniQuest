@@ -3,7 +3,10 @@ import { z } from 'zod'
 import { makeGetCompetitionRegulationUseCase } from '../../use-cases/competitions/factories/make-get-regulation-use-case'
 import { NotFoundError } from '@/http/use-cases/errors/not-found-error'
 
-export async function getRegulation(request: FastifyRequest, reply: FastifyReply) {
+export async function getRegulation(
+  request: FastifyRequest,
+  reply: FastifyReply,
+) {
   const competitionParamsSchema = z.object({
     id: z.string(),
   })
@@ -11,7 +14,8 @@ export async function getRegulation(request: FastifyRequest, reply: FastifyReply
   const { id } = competitionParamsSchema.parse(request.params)
 
   try {
-    const getCompetitionRegulationUseCase = makeGetCompetitionRegulationUseCase()
+    const getCompetitionRegulationUseCase =
+      makeGetCompetitionRegulationUseCase()
 
     const { regulation } = await getCompetitionRegulationUseCase.execute({
       id: Number(id),

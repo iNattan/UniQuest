@@ -3,7 +3,10 @@ import { z } from 'zod'
 import { makeGetUserInCompetitionUseCase } from '../../use-cases/team-members/factories/make-get-user-in-competition-use-case'
 import { NotFoundError } from '@/http/use-cases/errors/not-found-error'
 
-export async function getUserInCompetition(request: FastifyRequest, reply: FastifyReply) {
+export async function getUserInCompetition(
+  request: FastifyRequest,
+  reply: FastifyReply,
+) {
   const paramsSchema = z.object({
     competition_id: z.string().regex(/^\d+$/).transform(Number),
   })

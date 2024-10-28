@@ -15,7 +15,10 @@ export class DeleteDirectConfrontationMatchUseCase {
         game_id,
       )
 
-    if (!directConfrontationMatchExists || directConfrontationMatchExists.length === 0) {
+    if (
+      !directConfrontationMatchExists ||
+      directConfrontationMatchExists.length === 0
+    ) {
       throw new NotFoundError('DirectConfrontationMatch')
     }
 

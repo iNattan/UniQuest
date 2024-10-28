@@ -7,7 +7,7 @@ interface CreateTeamUseCaseRequest {
   competition_id: number
   name: string
   is_private: number
-  password?: string  
+  password?: string
   leader_user_id: number
 }
 

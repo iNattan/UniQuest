@@ -7,7 +7,8 @@ let sut: GetDirectConfrontationMatchUseCase
 
 describe('Get Direct Confrontation Match Use Case', () => {
   beforeEach(() => {
-    directConfrontationMatchesRepository = new InMemoryDirectConfrontationMatchesRepository()
+    directConfrontationMatchesRepository =
+      new InMemoryDirectConfrontationMatchesRepository()
     sut = new GetDirectConfrontationMatchUseCase(
       directConfrontationMatchesRepository,
     )

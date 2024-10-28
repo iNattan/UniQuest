@@ -39,7 +39,7 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
     CompetitionGames,
     image,
     image_name,
-    regulation,    
+    regulation,
     regulation_name,
   } = competitionBodySchema.parse(request.body)
 

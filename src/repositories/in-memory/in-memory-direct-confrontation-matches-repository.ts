@@ -1,12 +1,15 @@
 import { DirectConfrontationMatch, Prisma } from '@prisma/client'
 import { DirectConfrontationMatchesRepository } from '../direct-confrontation-matches-repository'
 
-export class InMemoryDirectConfrontationMatchesRepository implements DirectConfrontationMatchesRepository {
+export class InMemoryDirectConfrontationMatchesRepository
+  implements DirectConfrontationMatchesRepository
+{
   public items: DirectConfrontationMatch[] = []
 
   async findByCompetitionAndGame(competitionId: number, gameId: number) {
     return this.items.filter(
-      (item) => item.competition_id === competitionId && item.game_id === gameId,
+      (item) =>
+        item.competition_id === competitionId && item.game_id === gameId,
     )
   }
 
@@ -38,8 +41,8 @@ export class InMemoryDirectConfrontationMatchesRepository implements DirectConfr
       game_id: item.game_id,
       round: item.round,
       match: item.match,
-      team1_id: item.team1_id ?? null, 
-      team2_id: item.team2_id ?? null, 
+      team1_id: item.team1_id ?? null,
+      team2_id: item.team2_id ?? null,
       winner_team_id: item.winner_team_id ?? null,
       created_at: new Date(),
     }))
@@ -59,13 +62,18 @@ export class InMemoryDirectConfrontationMatchesRepository implements DirectConfr
     const existingMatch = this.items[matchIndex]
     const updatedMatch: DirectConfrontationMatch = {
       ...existingMatch,
-      team1_id: data.team1 ? data.team1.connect?.id ?? existingMatch.team1_id : existingMatch.team1_id,
-      team2_id: data.team2 ? data.team2.connect?.id ?? existingMatch.team2_id : existingMatch.team2_id,
-      winner_team_id: data.winner_team ? data.winner_team.connect?.id ?? existingMatch.winner_team_id : existingMatch.winner_team_id,
+      team1_id: data.team1
+        ? (data.team1.connect?.id ?? existingMatch.team1_id)
+        : existingMatch.team1_id,
+      team2_id: data.team2
+        ? (data.team2.connect?.id ?? existingMatch.team2_id)
+        : existingMatch.team2_id,
+      winner_team_id: data.winner_team
+        ? (data.winner_team.connect?.id ?? existingMatch.winner_team_id)
+        : existingMatch.winner_team_id,
       round: typeof data.round === 'number' ? data.round : existingMatch.round,
       match: typeof data.match === 'number' ? data.match : existingMatch.match,
     }
-    
 
     this.items[matchIndex] = updatedMatch
     return updatedMatch
@@ -74,7 +82,8 @@ export class InMemoryDirectConfrontationMatchesRepository implements DirectConfr
   async deleteMany(competitionId: number, gameId: number) {
     const initialLength = this.items.length
     this.items = this.items.filter(
-      (item) => item.competition_id !== competitionId || item.game_id !== gameId,
+      (item) =>
+        item.competition_id !== competitionId || item.game_id !== gameId,
     )
     return this.items.length < initialLength
   }

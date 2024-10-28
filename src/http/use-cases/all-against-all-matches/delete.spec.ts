@@ -12,8 +12,10 @@ let sut: DeleteAllAgainstAllMatchUseCase
 
 describe('Delete All Against All Match Use Case', () => {
   beforeEach(() => {
-    allAgainstAllMatchesRepository = new InMemoryAllAgainstAllMatchesRepository()
-    allAgainstAllPlacementsRepository = new InMemoryAllAgainstAllPlacementsRepository()
+    allAgainstAllMatchesRepository =
+      new InMemoryAllAgainstAllMatchesRepository()
+    allAgainstAllPlacementsRepository =
+      new InMemoryAllAgainstAllPlacementsRepository()
     scoresRepository = new InMemoryScoresRepository()
     sut = new DeleteAllAgainstAllMatchUseCase(
       allAgainstAllMatchesRepository,
@@ -25,10 +27,10 @@ describe('Delete All Against All Match Use Case', () => {
   it('should be able to delete all against all matches and corresponding placements and scores', async () => {
     await allAgainstAllMatchesRepository.create({
       competition: {
-        connect: { id: 1 }, 
+        connect: { id: 1 },
       },
       game: {
-        connect: { id: 1 }, 
+        connect: { id: 1 },
       },
       round: 1,
     })
@@ -47,13 +49,16 @@ describe('Delete All Against All Match Use Case', () => {
 
     expect(wasDeleted).toBe(true)
 
-    const remainingMatches = await allAgainstAllMatchesRepository.findByCompetitionAndGame(1, 1)
+    const remainingMatches =
+      await allAgainstAllMatchesRepository.findByCompetitionAndGame(1, 1)
     expect(remainingMatches).toHaveLength(0)
 
-    const remainingPlacements = await allAgainstAllPlacementsRepository.findByMatchId(1)
+    const remainingPlacements =
+      await allAgainstAllPlacementsRepository.findByMatchId(1)
     expect(remainingPlacements).toHaveLength(0)
 
-    const remainingScores = await scoresRepository.findByCompetitionIdAndGameIdAndTeamId(1, 1, 1)
+    const remainingScores =
+      await scoresRepository.findByCompetitionIdAndGameIdAndTeamId(1, 1, 1)
     expect(remainingScores).toBeNull()
   })
 

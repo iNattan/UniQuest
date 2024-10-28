@@ -17,7 +17,7 @@ export class GetCompetitionRegulationUseCase {
     const competition = await this.competitionsRepository.findRegulationById(id)
 
     return {
-      regulation: competition?.regulation || null
+      regulation: competition?.regulation || null,
     }
   }
 }

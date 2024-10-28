@@ -26,7 +26,7 @@ describe('Me User Use Case', () => {
         id: createdUser.id,
         name: 'John Doe',
         email: 'john.doe@example.com',
-      })
+      }),
     )
   })
 

@@ -18,25 +18,27 @@ export class InMemoryCompetitionsRepository implements CompetitionsRepository {
 
   async findManyImages() {
     return this.items
-      .filter(competition => competition.system_deleted === null)
-      .map(competition => ({
+      .filter((competition) => competition.system_deleted === null)
+      .map((competition) => ({
         id: competition.id,
         image: competition.image,
       }))
   }
 
   async findMany(filter?: string) {
-    return this.items.filter((competition) => {
-      const isActive = competition.system_deleted === null
-      const matchesFilter = filter
-        ? competition.title.toLowerCase().includes(filter.toLowerCase())
-        : true
+    return this.items
+      .filter((competition) => {
+        const isActive = competition.system_deleted === null
+        const matchesFilter = filter
+          ? competition.title.toLowerCase().includes(filter.toLowerCase())
+          : true
 
-      return isActive && matchesFilter
-    }).map(competition => ({
-      ...competition,
-      CompetitionGames: [],
-    }))
+        return isActive && matchesFilter
+      })
+      .map((competition) => ({
+        ...competition,
+        CompetitionGames: [],
+      }))
   }
 
   async create(data: Prisma.CompetitionCreateInput) {
@@ -74,16 +76,38 @@ export class InMemoryCompetitionsRepository implements CompetitionsRepository {
 
     const updatedCompetition: Competition = {
       ...existingCompetition,
-      title: typeof data.title === 'string' ? data.title : existingCompetition.title,
-      date_event: data.date_event ? new Date(data.date_event as Date) : existingCompetition.date_event,
-      start_registration: data.start_registration ? new Date(data.start_registration as Date) : existingCompetition.start_registration,
-      end_registration: data.end_registration ? new Date(data.end_registration as Date) : existingCompetition.end_registration,
-      min_participant: typeof data.min_participant === 'number' ? data.min_participant : existingCompetition.min_participant,
-      max_participant: typeof data.max_participant === 'number' ? data.max_participant : existingCompetition.max_participant,
-      local: typeof data.local === 'string' ? data.local : existingCompetition.local,
-      description: typeof data.description === 'string' ? data.description : existingCompetition.description,
-      system_deleted: typeof data.system_deleted === 'number' ? data.system_deleted : existingCompetition.system_deleted,
-      system_date_deleted: data.system_date_deleted ? new Date(data.system_date_deleted as Date) : existingCompetition.system_date_deleted,
+      title:
+        typeof data.title === 'string' ? data.title : existingCompetition.title,
+      date_event: data.date_event
+        ? new Date(data.date_event as Date)
+        : existingCompetition.date_event,
+      start_registration: data.start_registration
+        ? new Date(data.start_registration as Date)
+        : existingCompetition.start_registration,
+      end_registration: data.end_registration
+        ? new Date(data.end_registration as Date)
+        : existingCompetition.end_registration,
+      min_participant:
+        typeof data.min_participant === 'number'
+          ? data.min_participant
+          : existingCompetition.min_participant,
+      max_participant:
+        typeof data.max_participant === 'number'
+          ? data.max_participant
+          : existingCompetition.max_participant,
+      local:
+        typeof data.local === 'string' ? data.local : existingCompetition.local,
+      description:
+        typeof data.description === 'string'
+          ? data.description
+          : existingCompetition.description,
+      system_deleted:
+        typeof data.system_deleted === 'number'
+          ? data.system_deleted
+          : existingCompetition.system_deleted,
+      system_date_deleted: data.system_date_deleted
+        ? new Date(data.system_date_deleted as Date)
+        : existingCompetition.system_date_deleted,
     }
 
     this.items[competitionIndex] = updatedCompetition

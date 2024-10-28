@@ -12,8 +12,10 @@ let sut: UpdateAllAgainstAllMatchUseCase
 
 describe('Update All Against All Match Use Case', () => {
   beforeEach(() => {
-    allAgainstAllMatchesRepository = new InMemoryAllAgainstAllMatchesRepository()
-    allAgainstAllPlacementsRepository = new InMemoryAllAgainstAllPlacementsRepository()
+    allAgainstAllMatchesRepository =
+      new InMemoryAllAgainstAllMatchesRepository()
+    allAgainstAllPlacementsRepository =
+      new InMemoryAllAgainstAllPlacementsRepository()
     gamesRepository = new InMemoryGamesRepository()
     sut = new UpdateAllAgainstAllMatchUseCase(
       allAgainstAllMatchesRepository,
@@ -55,14 +57,26 @@ describe('Update All Against All Match Use Case', () => {
       ],
     })
 
-    const updatedPlacements1 = await allAgainstAllPlacementsRepository.findByMatchIdAndTeamId(match.id, 1)
-    const updatedPlacements2 = await allAgainstAllPlacementsRepository.findByMatchIdAndTeamId(match.id, 2)
-    const updatedPlacements3 = await allAgainstAllPlacementsRepository.findByMatchIdAndTeamId(match.id, 3)
+    const updatedPlacements1 =
+      await allAgainstAllPlacementsRepository.findByMatchIdAndTeamId(
+        match.id,
+        1,
+      )
+    const updatedPlacements2 =
+      await allAgainstAllPlacementsRepository.findByMatchIdAndTeamId(
+        match.id,
+        2,
+      )
+    const updatedPlacements3 =
+      await allAgainstAllPlacementsRepository.findByMatchIdAndTeamId(
+        match.id,
+        3,
+      )
 
     expect(updatedPlacements1?.position).toBe(1)
-    expect(updatedPlacements1?.score).toBe(15) 
+    expect(updatedPlacements1?.score).toBe(15)
     expect(updatedPlacements2?.position).toBe(2)
-    expect(updatedPlacements2?.score).toBe(10) 
+    expect(updatedPlacements2?.score).toBe(10)
     expect(updatedPlacements3?.position).toBe(3)
     expect(updatedPlacements3?.score).toBe(5)
   })
@@ -70,7 +84,7 @@ describe('Update All Against All Match Use Case', () => {
   it('should throw NotFoundError if match does not exist', async () => {
     await expect(() =>
       sut.execute({
-        match_id: 999, 
+        match_id: 999,
         placements: [{ team_id: 1, position: 1 }],
       }),
     ).rejects.toBeInstanceOf(NotFoundError)
@@ -79,7 +93,7 @@ describe('Update All Against All Match Use Case', () => {
   it('should throw NotFoundError if game does not exist', async () => {
     const match = await allAgainstAllMatchesRepository.create({
       competition: { connect: { id: 1 } },
-      game: { connect: { id: 999 } }, 
+      game: { connect: { id: 999 } },
       round: 1,
     })
 
@@ -118,7 +132,7 @@ describe('Update All Against All Match Use Case', () => {
         match_id: match.id,
         placements: [
           { team_id: 1, position: 1 },
-          { team_id: 2, position: 2 }, 
+          { team_id: 2, position: 2 },
         ],
       }),
     ).rejects.toBeInstanceOf(NotFoundError)

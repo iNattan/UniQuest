@@ -18,7 +18,7 @@ describe('Get User In Competition Use Case', () => {
       },
       team: {
         connect: { id: 1 },
-      }
+      },
     })
 
     const { team_id } = await sut.execute({ user_id: 1, competition_id: 1 })
@@ -26,4 +26,3 @@ describe('Get User In Competition Use Case', () => {
     expect(team_id).toBe(1)
   })
 })
-

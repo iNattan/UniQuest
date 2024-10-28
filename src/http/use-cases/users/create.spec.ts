@@ -32,7 +32,10 @@ describe('Create User Use Case', () => {
       role: 1,
     })
 
-    const isPasswordCorrectlyHashed = await compare('123456', user.password_hash)
+    const isPasswordCorrectlyHashed = await compare(
+      '123456',
+      user.password_hash,
+    )
 
     expect(isPasswordCorrectlyHashed).toBe(true)
   })
@@ -53,7 +56,7 @@ describe('Create User Use Case', () => {
         email,
         password: '123456',
         role: 1,
-      })
+      }),
     ).rejects.toBeInstanceOf(UserAlreadyExistsError)
   })
 })

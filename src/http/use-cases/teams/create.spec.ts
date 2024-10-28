@@ -1,5 +1,5 @@
 import { expect, describe, it, beforeEach } from 'vitest'
-import { CreateTeamUseCase } from './create' 
+import { CreateTeamUseCase } from './create'
 import { InMemoryTeamsRepository } from '@/repositories/in-memory/in-memory-teams-repository'
 import { InMemoryTeamMembersRepository } from '@/repositories/in-memory/in-memory-team-members-repository'
 import { compare } from 'bcryptjs'
@@ -12,7 +12,7 @@ describe('Create Team Use Case', () => {
   beforeEach(() => {
     teamsRepository = new InMemoryTeamsRepository()
     teamMembersRepository = new InMemoryTeamMembersRepository()
-    sut = new CreateTeamUseCase(teamsRepository, teamMembersRepository) 
+    sut = new CreateTeamUseCase(teamsRepository, teamMembersRepository)
   })
 
   it('should be able to register a new team and add the leader as a team member', async () => {
@@ -29,7 +29,7 @@ describe('Create Team Use Case', () => {
     expect(team.name).toBe('Team A')
 
     const teamMember = teamMembersRepository.members.find(
-      (member) => member.user_id === leaderUserId && member.team_id === team.id
+      (member) => member.user_id === leaderUserId && member.team_id === team.id,
     )
 
     expect(teamMember).toBeTruthy()
@@ -46,7 +46,10 @@ describe('Create Team Use Case', () => {
       leader_user_id: 1,
     })
 
-    const isPasswordCorrectlyHashed = await compare('securepassword123', team.password_hash ?? '')
+    const isPasswordCorrectlyHashed = await compare(
+      'securepassword123',
+      team.password_hash ?? '',
+    )
 
     expect(isPasswordCorrectlyHashed).toBe(true)
   })

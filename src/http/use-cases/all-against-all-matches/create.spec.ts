@@ -11,8 +11,10 @@ let sut: CreateAllAgainstAllMatchUseCase
 
 describe('Create All Against All Match Use Case', () => {
   beforeEach(() => {
-    allAgainstAllMatchesRepository = new InMemoryAllAgainstAllMatchesRepository()
-    allAgainstAllPlacementsRepository = new InMemoryAllAgainstAllPlacementsRepository()
+    allAgainstAllMatchesRepository =
+      new InMemoryAllAgainstAllMatchesRepository()
+    allAgainstAllPlacementsRepository =
+      new InMemoryAllAgainstAllPlacementsRepository()
     scoresRepository = new InMemoryScoresRepository()
     sut = new CreateAllAgainstAllMatchUseCase(
       allAgainstAllMatchesRepository,
@@ -31,20 +33,23 @@ describe('Create All Against All Match Use Case', () => {
 
     expect(matches).toHaveLength(2)
 
-    const placements = await allAgainstAllPlacementsRepository.findByMatchId(matches[0].id)
-    expect(placements).toHaveLength(4) 
+    const placements = await allAgainstAllPlacementsRepository.findByMatchId(
+      matches[0].id,
+    )
+    expect(placements).toHaveLength(4)
     for (const teamId of [1, 2, 3, 4]) {
-      const score = await scoresRepository.findByCompetitionIdAndGameIdAndTeamId(
-        1, 
-        1, 
-        teamId, 
-      )
+      const score =
+        await scoresRepository.findByCompetitionIdAndGameIdAndTeamId(
+          1,
+          1,
+          teamId,
+        )
       expect(score).toEqual(
         expect.objectContaining({
           competition_id: 1,
           game_id: 1,
           team_id: teamId,
-          score: 0, 
+          score: 0,
         }),
       )
     }

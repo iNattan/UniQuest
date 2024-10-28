@@ -9,7 +9,8 @@ let sut: CreateDirectConfrotationMatchUseCase
 
 describe('Create Direct Confrontation Match Use Case', () => {
   beforeEach(() => {
-    directConfrontationMatchesRepository = new InMemoryDirectConfrontationMatchesRepository()
+    directConfrontationMatchesRepository =
+      new InMemoryDirectConfrontationMatchesRepository()
     scoresRepository = new InMemoryScoresRepository()
     sut = new CreateDirectConfrotationMatchUseCase(
       directConfrontationMatchesRepository,
@@ -21,22 +22,23 @@ describe('Create Direct Confrontation Match Use Case', () => {
     const { matches } = await sut.execute({
       competition_id: 1,
       game_id: 1,
-      teams: [1, 2, 3, 4], 
+      teams: [1, 2, 3, 4],
     })
 
-    expect(matches).toHaveLength(4) 
+    expect(matches).toHaveLength(4)
     for (const teamId of [1, 2, 3, 4]) {
-      const score = await scoresRepository.findByCompetitionIdAndGameIdAndTeamId(
-        1, 
-        1, 
-        teamId, 
-      )
+      const score =
+        await scoresRepository.findByCompetitionIdAndGameIdAndTeamId(
+          1,
+          1,
+          teamId,
+        )
       expect(score).toEqual(
         expect.objectContaining({
           competition_id: 1,
           game_id: 1,
           team_id: teamId,
-          score: 0, 
+          score: 0,
         }),
       )
     }
@@ -46,7 +48,7 @@ describe('Create Direct Confrontation Match Use Case', () => {
     const { matches } = await sut.execute({
       competition_id: 1,
       game_id: 1,
-      teams: [1, 2, 3, 4, 5], 
+      teams: [1, 2, 3, 4, 5],
     })
 
     expect(matches).toHaveLength(8)

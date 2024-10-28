@@ -8,7 +8,8 @@ let sut: UpdateDirectConfrontationMatchUseCase
 
 describe('Update Direct Confrontation Match Use Case', () => {
   beforeEach(() => {
-    directConfrontationMatchesRepository = new InMemoryDirectConfrontationMatchesRepository()
+    directConfrontationMatchesRepository =
+      new InMemoryDirectConfrontationMatchesRepository()
     sut = new UpdateDirectConfrontationMatchUseCase(
       directConfrontationMatchesRepository,
     )
@@ -55,12 +56,8 @@ describe('Update Direct Confrontation Match Use Case', () => {
 
     expect(match.winner_team_id).toBe(1)
 
-    const updatedNextMatch = await directConfrontationMatchesRepository.findByRoundAndMatch(
-      1,
-      1,
-      2,
-      1,
-    )
+    const updatedNextMatch =
+      await directConfrontationMatchesRepository.findByRoundAndMatch(1, 1, 2, 1)
 
     expect(updatedNextMatch?.team1_id).toBe(1)
   })
@@ -106,12 +103,8 @@ describe('Update Direct Confrontation Match Use Case', () => {
 
     expect(match.winner_team_id).toBe(3)
 
-    const updatedNextMatch = await directConfrontationMatchesRepository.findByRoundAndMatch(
-      1,
-      1,
-      2,
-      1,
-    )
+    const updatedNextMatch =
+      await directConfrontationMatchesRepository.findByRoundAndMatch(1, 1, 2, 1)
 
     expect(updatedNextMatch?.team2_id).toBe(3)
   })

@@ -1,6 +1,9 @@
 import { Prisma, Competition } from '@prisma/client'
 type CompetitionWithoutRegulation = Omit<Competition, 'regulation'>
-type CompetitionWithoutImageAndRegulation = Omit<Competition, 'image' | 'regulation'>
+type CompetitionWithoutImageAndRegulation = Omit<
+  Competition,
+  'image' | 'regulation'
+>
 type CompetitionWithIdAndImage = Pick<Competition, 'id' | 'image'>
 type Regulation = Pick<Competition, 'regulation'>
 

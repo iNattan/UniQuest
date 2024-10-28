@@ -1,7 +1,10 @@
 import { CompetitionsRepository } from '@/repositories/competitions-repository'
 import { Competition } from '@prisma/client'
 
-type CompetitionWithoutImageAndRegulation = Omit<Competition, 'image' | 'regulation'>
+type CompetitionWithoutImageAndRegulation = Omit<
+  Competition,
+  'image' | 'regulation'
+>
 
 interface GetCompetitionUseCaseRequest {
   filter?: string
@@ -37,9 +40,11 @@ export class GetCompetitionUseCase {
   }: GetCompetitionUseCaseRequest): Promise<GetCompetitionUseCaseResponse> {
     const competitions = await this.competitionsRepository.findMany(filter)
 
-    const competitionsWithGameName = competitions.map(competition => ({
+    const competitionsWithGameName = competitions.map((competition) => ({
       ...competition,
-      CompetitionGames: (competition as CompetitionWithGames).CompetitionGames.map(compGame => ({
+      CompetitionGames: (
+        competition as CompetitionWithGames
+      ).CompetitionGames.map((compGame) => ({
         id: compGame.id,
         local: compGame.local,
         date_game: compGame.date_game,

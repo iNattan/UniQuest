@@ -37,7 +37,7 @@ export class InMemoryUsersRepository implements UsersRepository {
       }
 
       const matchesName = user.name.toLowerCase().includes(filter.toLowerCase())
-      return matchesName 
+      return matchesName
     })
 
     return filteredUsers

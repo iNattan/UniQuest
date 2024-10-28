@@ -5,7 +5,6 @@ import { InMemoryGamesRepository } from '@/repositories/in-memory/in-memory-game
 import { InMemoryDirectConfrontationMatchesRepository } from '@/repositories/in-memory/in-memory-direct-confrontation-matches-repository'
 import { InMemoryAllAgainstAllMatchesRepository } from '@/repositories/in-memory/in-memory-all-against-all-matches-repository'
 import { InMemoryAllAgainstAllPlacementsRepository } from '@/repositories/in-memory/in-memory-all-against-all-placements-repository'
-import { NotFoundError } from '../errors/not-found-error'
 
 let scoresRepository: InMemoryScoresRepository
 let gamesRepository: InMemoryGamesRepository
@@ -18,9 +17,12 @@ describe('Update Scores Use Case', () => {
   beforeEach(() => {
     scoresRepository = new InMemoryScoresRepository()
     gamesRepository = new InMemoryGamesRepository()
-    directConfrontationMatchesRepository = new InMemoryDirectConfrontationMatchesRepository()
-    allAgainstAllMatchesRepository = new InMemoryAllAgainstAllMatchesRepository()
-    allAgainstAllPlacementsRepository = new InMemoryAllAgainstAllPlacementsRepository()
+    directConfrontationMatchesRepository =
+      new InMemoryDirectConfrontationMatchesRepository()
+    allAgainstAllMatchesRepository =
+      new InMemoryAllAgainstAllMatchesRepository()
+    allAgainstAllPlacementsRepository =
+      new InMemoryAllAgainstAllPlacementsRepository()
 
     sut = new UpdateScoresUseCase(
       scoresRepository,
@@ -36,7 +38,7 @@ describe('Update Scores Use Case', () => {
       name: 'Game 1',
       min_participant: 1,
       max_participant: 2,
-      category: 1, 
+      category: 1,
       general_score: 1,
       first_score: 15,
       second_score: 10,
@@ -57,10 +59,10 @@ describe('Update Scores Use Case', () => {
 
     await allAgainstAllMatchesRepository.create({
       competition: {
-        connect: { id: 1 }, 
+        connect: { id: 1 },
       },
       game: {
-        connect: { id: 1 }, 
+        connect: { id: 1 },
       },
       round: 1,
     })
@@ -78,24 +80,23 @@ describe('Update Scores Use Case', () => {
         match_id: 1,
         team_id: team2.id,
         score: 10,
-        position: 2, 
+        position: 2,
       },
       {
         id: 3,
         match_id: 1,
         team_id: team3.id,
         score: 5,
-        position: 3, 
+        position: 3,
       },
       {
         id: 4,
         match_id: 1,
         team_id: team4.id,
         score: 1,
-        position: 4, 
+        position: 4,
       },
     ])
-    
 
     const response = await sut.execute({
       competition_id: 1,
@@ -104,17 +105,37 @@ describe('Update Scores Use Case', () => {
 
     expect(response.success).toBe(true)
 
-    const updatedScores = await scoresRepository.findByCompetitionIdAndGameIdAndTeamId(1, 1, team1.id)
+    const updatedScores =
+      await scoresRepository.findByCompetitionIdAndGameIdAndTeamId(
+        1,
+        1,
+        team1.id,
+      )
     expect(updatedScores?.score).toBe(15)
 
-    const updatedScoreSecond = await scoresRepository.findByCompetitionIdAndGameIdAndTeamId(1, 1, team2.id)
-    expect(updatedScoreSecond?.score).toBe(10) 
+    const updatedScoreSecond =
+      await scoresRepository.findByCompetitionIdAndGameIdAndTeamId(
+        1,
+        1,
+        team2.id,
+      )
+    expect(updatedScoreSecond?.score).toBe(10)
 
-    const updatedScoreThird = await scoresRepository.findByCompetitionIdAndGameIdAndTeamId(1, 1, team3.id)
-    expect(updatedScoreThird?.score).toBe(5) 
-    
-    const updatedScoreFourth = await scoresRepository.findByCompetitionIdAndGameIdAndTeamId(1, 1, team4.id)
-    expect(updatedScoreFourth?.score).toBe(1) 
+    const updatedScoreThird =
+      await scoresRepository.findByCompetitionIdAndGameIdAndTeamId(
+        1,
+        1,
+        team3.id,
+      )
+    expect(updatedScoreThird?.score).toBe(5)
+
+    const updatedScoreFourth =
+      await scoresRepository.findByCompetitionIdAndGameIdAndTeamId(
+        1,
+        1,
+        team4.id,
+      )
+    expect(updatedScoreFourth?.score).toBe(1)
   })
 
   it('should update scores correctly for direct confrontation games', async () => {
@@ -128,19 +149,19 @@ describe('Update Scores Use Case', () => {
       second_score: 10,
       third_score: 5,
     })
-  
+
     const team1 = { id: 1, name: 'Team A', competition_id: 1 }
     const team2 = { id: 2, name: 'Team B', competition_id: 1 }
     const team3 = { id: 3, name: 'Team C', competition_id: 1 }
     const team4 = { id: 4, name: 'Team D', competition_id: 1 }
-  
+
     await scoresRepository.createMany([
       { competition_id: 1, game_id: 1, team_id: team1.id, score: 0 },
       { competition_id: 1, game_id: 1, team_id: team2.id, score: 0 },
       { competition_id: 1, game_id: 1, team_id: team3.id, score: 0 },
       { competition_id: 1, game_id: 1, team_id: team4.id, score: 0 },
     ])
-  
+
     await directConfrontationMatchesRepository.createMany([
       {
         id: 1,
@@ -150,7 +171,7 @@ describe('Update Scores Use Case', () => {
         match: 1,
         team1_id: team1.id,
         team2_id: team2.id,
-        winner_team_id: team1.id, 
+        winner_team_id: team1.id,
       },
       {
         id: 2,
@@ -160,27 +181,47 @@ describe('Update Scores Use Case', () => {
         match: 2,
         team1_id: team3.id,
         team2_id: team4.id,
-        winner_team_id: team3.id, 
+        winner_team_id: team3.id,
       },
     ])
-  
+
     const response = await sut.execute({
       competition_id: 1,
       game_id: 1,
     })
-  
+
     expect(response.success).toBe(true)
-  
-    const updatedScoreFirst = await scoresRepository.findByCompetitionIdAndGameIdAndTeamId(1, 1, team1.id)
-    expect(updatedScoreFirst?.score).toBe(15) 
-  
-    const updatedScoreSecond = await scoresRepository.findByCompetitionIdAndGameIdAndTeamId(1, 1, team2.id)
+
+    const updatedScoreFirst =
+      await scoresRepository.findByCompetitionIdAndGameIdAndTeamId(
+        1,
+        1,
+        team1.id,
+      )
+    expect(updatedScoreFirst?.score).toBe(15)
+
+    const updatedScoreSecond =
+      await scoresRepository.findByCompetitionIdAndGameIdAndTeamId(
+        1,
+        1,
+        team2.id,
+      )
     expect(updatedScoreSecond?.score).toBe(10)
-  
-    const updatedScoreThird = await scoresRepository.findByCompetitionIdAndGameIdAndTeamId(1, 1, team3.id)
+
+    const updatedScoreThird =
+      await scoresRepository.findByCompetitionIdAndGameIdAndTeamId(
+        1,
+        1,
+        team3.id,
+      )
     expect(updatedScoreThird?.score).toBe(5)
 
-    const updatedScoreFourth = await scoresRepository.findByCompetitionIdAndGameIdAndTeamId(1, 1, team4.id)
+    const updatedScoreFourth =
+      await scoresRepository.findByCompetitionIdAndGameIdAndTeamId(
+        1,
+        1,
+        team4.id,
+      )
     expect(updatedScoreFourth?.score).toBe(1)
-  })  
+  })
 })

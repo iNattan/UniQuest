@@ -5,8 +5,11 @@ import { PrismaTeamMembersRepository } from '@/repositories/prisma/prisma-team-m
 export function makeCreateTeamUseCase() {
   const teamsRepository = new PrismaTeamsRepository()
   const teamMembersRepository = new PrismaTeamMembersRepository()
-  
-  const createTeamUseCase = new CreateTeamUseCase(teamsRepository, teamMembersRepository)
+
+  const createTeamUseCase = new CreateTeamUseCase(
+    teamsRepository,
+    teamMembersRepository,
+  )
 
   return createTeamUseCase
 }

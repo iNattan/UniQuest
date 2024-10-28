@@ -1,7 +1,9 @@
 import { CompetitionGame, Prisma } from '@prisma/client'
 import { CompetitionGamesRepository } from '../competition-games-repository'
 
-export class InMemoryCompetitionGamesRepository implements CompetitionGamesRepository {
+export class InMemoryCompetitionGamesRepository
+  implements CompetitionGamesRepository
+{
   public items: CompetitionGame[] = []
 
   async findByCompetitionId(competitionId: number) {
@@ -14,7 +16,10 @@ export class InMemoryCompetitionGamesRepository implements CompetitionGamesRepos
       competition_id: item.competition_id,
       game_id: item.game_id,
       local: item.local ?? '',
-      date_game: typeof item.date_game === 'string' ? new Date(item.date_game) : item.date_game, 
+      date_game:
+        typeof item.date_game === 'string'
+          ? new Date(item.date_game)
+          : item.date_game,
       created_at: new Date(),
     }))
 

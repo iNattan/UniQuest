@@ -10,19 +10,19 @@ interface GetUserInCompetitionUseCaseResponse {
 }
 
 export class GetUserInCompetitionUseCase {
-  constructor(
-    private teamMembersRepository: TeamMembersRepository,
-  ) {}
+  constructor(private teamMembersRepository: TeamMembersRepository) {}
 
   async execute({
     user_id,
     competition_id,
   }: GetUserInCompetitionUseCaseRequest): Promise<GetUserInCompetitionUseCaseResponse> {
-    const teamId = await this.teamMembersRepository.findByUserAndCompetitionId(user_id, competition_id)
+    const teamId = await this.teamMembersRepository.findByUserAndCompetitionId(
+      user_id,
+      competition_id,
+    )
 
     return {
       team_id: teamId,
     }
   }
 }
-

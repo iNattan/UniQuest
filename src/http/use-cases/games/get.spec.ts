@@ -80,9 +80,7 @@ describe('Get Game Use Case', () => {
     const { games } = await sut.execute({ filter: '1' })
 
     expect(games).toHaveLength(1)
-    expect(games).toEqual([
-      expect.objectContaining({ name: 'Game 1' }),
-    ])
+    expect(games).toEqual([expect.objectContaining({ name: 'Game 1' })])
   })
 
   it('should return an empty array if no games match the filter', async () => {

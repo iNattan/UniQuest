@@ -10,7 +10,8 @@ let sut: DeleteDirectConfrontationMatchUseCase
 
 describe('Delete Direct Confrontation Match Use Case', () => {
   beforeEach(() => {
-    directConfrontationMatchesRepository = new InMemoryDirectConfrontationMatchesRepository()
+    directConfrontationMatchesRepository =
+      new InMemoryDirectConfrontationMatchesRepository()
     scoresRepository = new InMemoryScoresRepository()
     sut = new DeleteDirectConfrontationMatchUseCase(
       directConfrontationMatchesRepository,
@@ -53,10 +54,12 @@ describe('Delete Direct Confrontation Match Use Case', () => {
 
     expect(result).toBe(true)
 
-    const remainingMatches = await directConfrontationMatchesRepository.findByCompetitionAndGame(1, 1)
+    const remainingMatches =
+      await directConfrontationMatchesRepository.findByCompetitionAndGame(1, 1)
     expect(remainingMatches).toHaveLength(0)
 
-    const remainingScores = await scoresRepository.findByCompetitionIdAndGameIdAndTeamId(1, 1, 1)
+    const remainingScores =
+      await scoresRepository.findByCompetitionIdAndGameIdAndTeamId(1, 1, 1)
     expect(remainingScores).toBeNull()
   })
 

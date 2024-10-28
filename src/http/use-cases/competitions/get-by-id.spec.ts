@@ -21,7 +21,7 @@ describe('Get Competition By Id Use Case', () => {
       max_participant: 16,
       local: 'Local',
       description: 'Description 1',
-      image: 'image-1.png',      
+      image: 'image-1.png',
     })
 
     const { competition } = await sut.execute({ id: 1 })

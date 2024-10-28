@@ -42,8 +42,8 @@ export class GetTeamUseCase {
       created_at: team.created_at,
       system_deleted: team.system_deleted,
       system_date_deleted: team.system_date_deleted,
-      members_count: team._count?.TeamMember || 0, 
-      max_participant: team.competition?.max_participant || 0, 
+      members_count: team._count?.TeamMember || 0,
+      max_participant: team.competition?.max_participant || 0,
     }))
 
     return {

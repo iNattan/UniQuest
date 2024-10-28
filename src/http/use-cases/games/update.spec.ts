@@ -65,7 +65,7 @@ describe('Update Game Use Case', () => {
   it('should not be able to update a non-existing game', async () => {
     await expect(() =>
       sut.execute({
-        id: 999, 
+        id: 999,
         name: 'Non Existing Game',
       }),
     ).rejects.toBeInstanceOf(NotFoundError)

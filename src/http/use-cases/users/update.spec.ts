@@ -44,17 +44,20 @@ describe('Update User Use Case', () => {
       password: 'newpassword',
     })
 
-    const isPasswordCorrectlyHashed = await compare('newpassword', user.password_hash!)
+    const isPasswordCorrectlyHashed = await compare(
+      'newpassword',
+      user.password_hash!,
+    )
     expect(isPasswordCorrectlyHashed).toBe(true)
   })
 
   it('should not be able to update a non-existing user', async () => {
     await expect(() =>
       sut.execute({
-        id: 999, 
+        id: 999,
         name: 'Non Existing',
         email: 'non.existing@example.com',
-      })
+      }),
     ).rejects.toBeInstanceOf(NotFoundError)
   })
 })

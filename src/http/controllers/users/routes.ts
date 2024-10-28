@@ -18,7 +18,11 @@ export async function usersRoutes(app: FastifyInstance) {
 
   app.patch('/token/refresh', refresh)
 
-  app.delete('/users/:id', { onRequest: [verifyJWT, verifyUserRole(1)] }, delete_)
+  app.delete(
+    '/users/:id',
+    { onRequest: [verifyJWT, verifyUserRole(1)] },
+    delete_,
+  )
 
   app.get('/users', { onRequest: [verifyJWT, verifyUserRole(1)] }, get)
   app.get('/users/me', { onRequest: verifyJWT }, me)

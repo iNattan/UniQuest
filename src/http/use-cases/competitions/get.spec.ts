@@ -81,7 +81,9 @@ describe('Get Competition Use Case', () => {
       local: 'Local',
     })
 
-    const { competitions } = await sut.execute({ filter: 'NonExistingCompetition' })
+    const { competitions } = await sut.execute({
+      filter: 'NonExistingCompetition',
+    })
 
     expect(competitions).toHaveLength(0)
   })

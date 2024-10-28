@@ -11,7 +11,10 @@ describe('Create Competition Use Case', () => {
   beforeEach(() => {
     competitionsRepository = new InMemoryCompetitionsRepository()
     competitionGamesRepository = new InMemoryCompetitionGamesRepository()
-    sut = new CreateCompetitionUseCase(competitionsRepository, competitionGamesRepository)
+    sut = new CreateCompetitionUseCase(
+      competitionsRepository,
+      competitionGamesRepository,
+    )
   })
 
   it('should be able to create a new competition without games', async () => {

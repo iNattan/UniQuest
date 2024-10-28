@@ -1,12 +1,15 @@
 import { AllAgainstAllMatch, Prisma } from '@prisma/client'
 import { AllAgainstAllMatchesRepository } from '../all-against-all-matches-repository'
 
-export class InMemoryAllAgainstAllMatchesRepository implements AllAgainstAllMatchesRepository {
+export class InMemoryAllAgainstAllMatchesRepository
+  implements AllAgainstAllMatchesRepository
+{
   public items: AllAgainstAllMatch[] = []
 
   async findByCompetitionAndGame(competitionId: number, gameId: number) {
     return this.items.filter(
-      (item) => item.competition_id === competitionId && item.game_id === gameId,
+      (item) =>
+        item.competition_id === competitionId && item.game_id === gameId,
     )
   }
 
@@ -18,7 +21,7 @@ export class InMemoryAllAgainstAllMatchesRepository implements AllAgainstAllMatc
   async create(data: Prisma.AllAgainstAllMatchCreateInput) {
     const newMatch: AllAgainstAllMatch = {
       id: this.items.length + 1,
-      competition_id: data.competition.connect?.id ?? 0, 
+      competition_id: data.competition.connect?.id ?? 0,
       game_id: data.game.connect?.id ?? 0,
       round: data.round,
     }
@@ -30,7 +33,8 @@ export class InMemoryAllAgainstAllMatchesRepository implements AllAgainstAllMatc
   async deleteMany(competitionId: number, gameId: number) {
     const initialLength = this.items.length
     this.items = this.items.filter(
-      (item) => item.competition_id !== competitionId || item.game_id !== gameId,
+      (item) =>
+        item.competition_id !== competitionId || item.game_id !== gameId,
     )
     return this.items.length < initialLength
   }

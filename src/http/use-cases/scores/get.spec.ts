@@ -87,7 +87,7 @@ describe('Get Scores Use Case', () => {
   })
 
   it('should throw NotFoundError if there are no games for the competition', async () => {
-    const team1 = await teamsRepository.create({
+    await teamsRepository.create({
       name: 'Team A',
       competition: {
         connect: { id: 1 },

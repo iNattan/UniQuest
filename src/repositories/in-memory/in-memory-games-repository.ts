@@ -25,8 +25,8 @@ export class InMemoryGamesRepository implements GamesRepository {
       id: this.items.length + 1,
       name: data.name,
       category: data.category,
-      min_participant: data.min_participant ?? 1, 
-      max_participant: data.max_participant ?? 2, 
+      min_participant: data.min_participant ?? 1,
+      max_participant: data.max_participant ?? 2,
       general_score: data.general_score ?? 0,
       first_score: data.first_score ?? 0,
       second_score: data.second_score ?? 0,
@@ -51,13 +51,34 @@ export class InMemoryGamesRepository implements GamesRepository {
     const updatedGame: Game = {
       ...existingGame,
       name: typeof data.name === 'string' ? data.name : existingGame.name,
-      category: typeof data.category === 'number' ? data.category : existingGame.category,
-      min_participant: typeof data.min_participant === 'number' ? data.min_participant : existingGame.min_participant,
-      max_participant: typeof data.max_participant === 'number' ? data.max_participant : existingGame.max_participant,
-      general_score: typeof data.general_score === 'number' ? data.general_score : existingGame.general_score,
-      first_score: typeof data.first_score === 'number' ? data.first_score : existingGame.first_score,
-      second_score: typeof data.second_score === 'number' ? data.second_score : existingGame.second_score,
-      third_score: typeof data.third_score === 'number' ? data.third_score : existingGame.third_score,
+      category:
+        typeof data.category === 'number'
+          ? data.category
+          : existingGame.category,
+      min_participant:
+        typeof data.min_participant === 'number'
+          ? data.min_participant
+          : existingGame.min_participant,
+      max_participant:
+        typeof data.max_participant === 'number'
+          ? data.max_participant
+          : existingGame.max_participant,
+      general_score:
+        typeof data.general_score === 'number'
+          ? data.general_score
+          : existingGame.general_score,
+      first_score:
+        typeof data.first_score === 'number'
+          ? data.first_score
+          : existingGame.first_score,
+      second_score:
+        typeof data.second_score === 'number'
+          ? data.second_score
+          : existingGame.second_score,
+      third_score:
+        typeof data.third_score === 'number'
+          ? data.third_score
+          : existingGame.third_score,
     }
 
     this.items[gameIndex] = updatedGame
