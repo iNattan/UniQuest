@@ -65,4 +65,14 @@ export class InMemoryTeamMembersRepository implements TeamMembersRepository {
 
     return true
   }
+
+  async deleteByTeamId(teamId: number) {
+    let index = this.members.length
+    while (index--) {
+      if (this.members[index].team_id === teamId) {
+        this.members.splice(index, 1)
+      }
+    }
+    return true
+  }
 }

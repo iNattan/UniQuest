@@ -24,4 +24,5 @@ export interface TeamMembersRepository {
   countByTeamId(teamId: number): Promise<number>
   create(data: Prisma.TeamMemberCreateInput): Promise<TeamMember>
   delete(id: number): Promise<boolean>
+  deleteByTeamId(teamId: number): Promise<boolean>
 }

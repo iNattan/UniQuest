@@ -38,6 +38,10 @@ export class UpdateTeamStatusUseCase {
       status,
     })
 
+    if (status === -1) {
+      await this.teamMembersRepository.deleteByTeamId(id)
+    }
+
     const teamMembers = await this.teamMembersRepository.findManyByTeamId(id)
     const membersIds = teamMembers.map((member) => member.user_id)
     const users = await Promise.all(
@@ -51,7 +55,7 @@ export class UpdateTeamStatusUseCase {
         body:
           status === 1
             ? `Parabéns! Sua equipe foi aprovada.`
-            : `Infelizmente, sua equipe foi rejeitada. Motivo: ${message || 'não especificado'}`,
+            : `Infelizmente, sua equipe foi rejeitada. Motivo: ${message || 'não especificado'}.\nVocê ainda pode participar da gincana criando ou entrando em outra equipe.`,
       }),
     )
 

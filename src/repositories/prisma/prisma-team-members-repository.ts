@@ -83,4 +83,15 @@ export class PrismaTeamMembersRepository implements TeamMembersRepository {
       return false
     }
   }
+
+  async deleteByTeamId(teamId: number) {
+    try {
+      await prisma.teamMember.deleteMany({
+        where: { team_id: teamId },
+      })
+      return true
+    } catch (err) {
+      return false
+    }
+  }
 }
