@@ -28,6 +28,7 @@ export class PrismaUsersRepository implements UsersRepository {
     const users = await prisma.user.findMany({
       where: {
         system_deleted: null,
+        role: 1,
         ...(filter
           ? {
               OR: [
