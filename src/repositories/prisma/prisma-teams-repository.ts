@@ -112,6 +112,7 @@ export class PrismaTeamsRepository implements TeamsRepository {
     return await prisma.team.findMany({
       where: {
         competition_id: competitionId,
+        status: 1,
       },
     })
   }

@@ -56,6 +56,7 @@ export class InMemoryTeamsRepository implements TeamsRepository {
     return this.items.filter(
       (team) =>
         team.competition_id === competitionId &&
+        team.status === 1 &&
         (team.system_deleted === null || team.system_deleted === undefined),
     )
   }
