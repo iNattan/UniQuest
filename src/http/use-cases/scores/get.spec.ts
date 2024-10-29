@@ -36,6 +36,7 @@ describe('Get Scores Use Case', () => {
       leader: {
         connect: { id: 1 },
       },
+      status: 1,
     })
 
     const team2 = await teamsRepository.create({
@@ -47,6 +48,7 @@ describe('Get Scores Use Case', () => {
       leader: {
         connect: { id: 2 },
       },
+      status: 1,
     })
 
     await competitionGamesRepository.createMany([

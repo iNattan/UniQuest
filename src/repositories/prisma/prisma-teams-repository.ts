@@ -45,6 +45,7 @@ export class PrismaTeamsRepository implements TeamsRepository {
         },
         competition: {
           select: {
+            min_participant: true,
             max_participant: true,
           },
         },
