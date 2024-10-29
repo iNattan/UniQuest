@@ -10,6 +10,10 @@ export class InMemoryCompetitionGamesRepository
     return this.items.filter((item) => item.competition_id === competitionId)
   }
 
+  async findByGameId(gameId: number) {
+    return this.items.filter((item) => item.game_id === gameId)
+  }
+
   async createMany(data: Prisma.CompetitionGameCreateManyInput[]) {
     const newGames: CompetitionGame[] = data.map((item, index) => ({
       id: this.items.length + 1 + index,

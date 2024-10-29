@@ -13,6 +13,14 @@ export class PrismaCompetitionGamesRepository
     })
   }
 
+  async findByGameId(gameId: number) {
+    return await prisma.competitionGame.findMany({
+      where: {
+        game_id: gameId,
+      },
+    })
+  }
+
   async createMany(data: Prisma.CompetitionGameCreateManyInput[]) {
     await prisma.competitionGame.createMany({
       data,
