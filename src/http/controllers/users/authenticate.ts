@@ -25,6 +25,7 @@ export async function authenticate(
     const token = await reply.jwtSign(
       {
         role: user.role,
+        name: user.name,
       },
       {
         sign: {
@@ -36,6 +37,7 @@ export async function authenticate(
     const refreshToken = await reply.jwtSign(
       {
         role: user.role,
+        name: user.name,
       },
       {
         sign: {
