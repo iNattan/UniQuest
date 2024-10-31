@@ -21,6 +21,7 @@ app.register(cors, {
   origin: [
     'http://localhost:3000',
     'https://uniquest-production.up.railway.app',
+    'https://uniquest-front.vercel.app',
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   credentials: true,
