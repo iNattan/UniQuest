@@ -9,10 +9,16 @@ import { verifyJWT } from '@/http/middlewares/verify-jwt'
 import { me } from './me'
 import { verifyUserRole } from '@/http/middlewares/verify-user-role'
 import { logout } from './logout'
+import { requestPasswordReset } from './request-password-reset'
+import { resetPassword } from './reset-password'
 
 export async function usersRoutes(app: FastifyInstance) {
   app.post('/users', create)
   app.post('/sessions', authenticate)
+
+  app.post('/forgot-password', requestPasswordReset)
+
+  app.post('/reset-password', resetPassword)
 
   app.put('/users/:id', { onRequest: [verifyJWT, verifyUserRole(1)] }, update)
 
